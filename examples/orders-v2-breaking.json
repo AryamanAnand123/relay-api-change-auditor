@@ -1,0 +1,13 @@
+{
+  "openapi": "3.1.0",
+  "info": {"title": "Original Example Orders API", "version": "2.0.0"},
+  "paths": {
+    "/orders": {
+      "post": {
+        "requestBody": {"required": true, "content": {"application/json": {"schema": {"type": "object", "required": ["item", "currency"], "properties": {"item": {"type": "string"}, "currency": {"type": "string", "enum": ["INR", "USD"]}}}}}},
+        "responses": {"201": {"description": "Order created", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/Order"}}}}}
+      }
+    }
+  },
+  "components": {"schemas": {"Order": {"type": "object", "required": ["id", "price"], "properties": {"id": {"type": "string"}, "price": {"type": "object", "required": ["amount", "currency"], "properties": {"amount": {"type": "number"}, "currency": {"type": "string"}}}}}}}
+}

@@ -1,0 +1,26 @@
+{
+  "name": "relay-api-auditor",
+  "version": "0.7.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "vite build",
+    "watch": "vite build --watch",
+    "test": "node tests/browser.mjs",
+    "test:live": "node tests/live.mjs",
+    "test:ai": "node tests/ai.mjs",
+    "test:ai:live": "node tests/ai-live.mjs",
+    "test:portfolio": "node tests/portfolio.mjs"
+  },
+  "dependencies": {
+    "react": "19.3.1",
+    "react-dom": "19.3.1"
+  },
+  "devDependencies": {
+    "vite": "8.3.6",
+    "playwright-core": "1.65.0"
+  },
+  "engines": {
+    "node": "^20.19.0 || >=22.12.0"
+  }
+}

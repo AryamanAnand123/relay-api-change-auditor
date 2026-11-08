@@ -1,0 +1,21 @@
+{
+  "status": "passed",
+  "mode": "actual Chrome and local FastAPI/offline workers; original unsaved examples",
+  "checks": [
+    "real original breaking example has three breaking findings, working search, and exact removal evidence",
+    "mobile findings and evidence screenshots use real source values without horizontal overflow",
+    "real additive example has two informational findings and no breaking findings",
+    "identical example has zero findings with declared coverage limits",
+    "demo leaves history and model-call count unchanged, with no external page requests or browser storage"
+  ],
+  "history_writes": 0,
+  "model_calls": 0,
+  "existing_history_masked": true,
+  "screenshots": [
+    "docs/images/relay-workspace.png",
+    "docs/images/relay-mobile.png",
+    "docs/images/relay-evidence.png"
+  ],
+  "uncaught_errors": [],
+  "external_page_requests": []
+}

@@ -1,0 +1,18 @@
+{
+  "corpus_version": "parcel-v1",
+  "date": "2026-11-08",
+  "sha256": "2efbc2dfe50268db19c79a6292ee4110b623a5f3d73e21f84fda0de3faca18d8",
+  "case_count": 88,
+  "frozen_before_first_scoring": true,
+  "split_note": "Additional authored evaluation cases, separate from development tests/examples; not external or blind evaluation.",
+  "ai_case_ids": [
+    "request-enum-narrow",
+    "required-response-property-remove",
+    "array-escaped-numeric-widening",
+    "operation-removal",
+    "nested-request-required",
+    "injection-in-field-and-description"
+  ],
+  "ai_attempts_per_case": 1,
+  "ai_spacing_seconds": 22
+}

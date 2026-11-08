@@ -1,0 +1,17 @@
+{
+  "status": "passed",
+  "mode": "simulated AI API responses; no real provider calls or history writes",
+  "checks": [
+    "missing-key guidance and zero automatic generation on saved reload",
+    "explicit evidence-sharing consent, duplicate-click protection, and unchanged findings",
+    "safe text rendering, model provenance, cache label, and evidence references",
+    "mobile guidance panel does not create horizontal overflow",
+    "ai_rate_limited leaves the complete deterministic review usable",
+    "ai_timeout leaves the complete deterministic review usable",
+    "ai_invalid_output leaves the complete deterministic review usable",
+    "switching findings discards stale AI responses and resets consent",
+    "unsaved reports retain evidence and explain how to enable AI"
+  ],
+  "uncaught_errors": [],
+  "external_page_requests": []
+}

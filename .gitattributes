@@ -1,0 +1,11 @@
+* text=auto eol=lf
+*.cmd text eol=crlf
+*.png binary
+*.pdf binary
+*.zip binary
+# Frozen data and retained AI evidence have hashes over exact file bytes.
+evaluation/*.json -text whitespace=cr-at-eol
+evaluation/archive/**/*.json -text whitespace=cr-at-eol
+docs/section-6-ai.json -text whitespace=cr-at-eol
+# Markdown export fixtures intentionally include a final paragraph separator.
+examples/reports/*.md whitespace=-blank-at-eof

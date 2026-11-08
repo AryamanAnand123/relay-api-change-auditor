@@ -1,0 +1,21 @@
+{
+  "section": 5,
+  "backend_tests": 244,
+  "comparison_browser_checks": 15,
+  "simulated_AI_browser_checks": 9,
+  "real_AI_browser_workflow_checks": 6,
+  "real_final_pilot_findings": 3,
+  "documentation_links": "valid",
+  "trailing_whitespace": "none",
+  "credential_scan": "clean",
+  "installed_python_pins": 66,
+  "new_PyPI_wheels": 22,
+  "saved_comparisons_after_tests": 0,
+  "health": {
+    "status": "ok",
+    "section": 5,
+    "version": "0.5.0"
+  },
+  "ai_provider": "groq",
+  "ai_model": "openai/gpt-oss-120b"
+}

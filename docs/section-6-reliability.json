@@ -1,0 +1,131 @@
+{
+  "status": "passed",
+  "corpus_sha256": "7f2eb935e58d042484bd70d11a39745262a172f21487e41c85255f5ebd781665",
+  "checks": [
+    "12 isolated production-worker requests return expected comparisons/rejections within the 10-second budget",
+    "real file/node/operation/finding limits fail explicitly rather than emitting partial successful reports",
+    "cancelling an actual request kills and reaps its own worker; the next comparison still succeeds"
+  ],
+  "timing_scope": "Actual production offline subprocess, JSON serialization, pipes and engine; excludes HTTP/history/AI. All samples retained, including first startup and rejection cases.",
+  "worker_latency_ms": {
+    "samples": 12,
+    "p50": 749.4445000000001,
+    "p95_nearest_rank": 928.188,
+    "max": 928.188
+  },
+  "samples": [
+    {
+      "case": "identical",
+      "repeat": 1,
+      "status": "compared",
+      "error_code": null,
+      "latency_ms": 891.85
+    },
+    {
+      "case": "identical",
+      "repeat": 2,
+      "status": "compared",
+      "error_code": null,
+      "latency_ms": 928.188
+    },
+    {
+      "case": "nested-request-required",
+      "repeat": 1,
+      "status": "compared",
+      "error_code": null,
+      "latency_ms": 882.188
+    },
+    {
+      "case": "nested-request-required",
+      "repeat": 2,
+      "status": "compared",
+      "error_code": null,
+      "latency_ms": 839.932
+    },
+    {
+      "case": "array-escaped-numeric-widening",
+      "repeat": 1,
+      "status": "compared",
+      "error_code": null,
+      "latency_ms": 714.522
+    },
+    {
+      "case": "array-escaped-numeric-widening",
+      "repeat": 2,
+      "status": "compared",
+      "error_code": null,
+      "latency_ms": 747.16
+    },
+    {
+      "case": "review-recursive-reference",
+      "repeat": 1,
+      "status": "compared",
+      "error_code": null,
+      "latency_ms": 793.019
+    },
+    {
+      "case": "review-recursive-reference",
+      "repeat": 2,
+      "status": "compared",
+      "error_code": null,
+      "latency_ms": 751.729
+    },
+    {
+      "case": "reject-external-reference",
+      "repeat": 1,
+      "status": "rejected",
+      "error_code": "unsupported_reference",
+      "latency_ms": 126.603
+    },
+    {
+      "case": "reject-external-reference",
+      "repeat": 2,
+      "status": "rejected",
+      "error_code": "unsupported_reference",
+      "latency_ms": 114.594
+    },
+    {
+      "case": "escaped-component-reference-oas30",
+      "repeat": 1,
+      "status": "rejected",
+      "error_code": "invalid_openapi",
+      "latency_ms": 704.339
+    },
+    {
+      "case": "escaped-component-reference-oas30",
+      "repeat": 2,
+      "status": "rejected",
+      "error_code": "invalid_openapi",
+      "latency_ms": 727.06
+    }
+  ],
+  "resource_checks": [
+    {
+      "check": "actual-file-limit",
+      "status": "passed",
+      "error_code": "file_too_large",
+      "latency_ms": 133.327
+    },
+    {
+      "check": "actual-input-node-limit",
+      "status": "passed",
+      "error_code": "resource_limit",
+      "latency_ms": 128.109
+    },
+    {
+      "check": "actual-operation-limit",
+      "status": "passed",
+      "error_code": "resource_limit",
+      "latency_ms": 948.504
+    },
+    {
+      "check": "actual-finding-limit",
+      "status": "passed",
+      "error_code": "resource_limit",
+      "latency_ms": 1137.485
+    }
+  ],
+  "cancelled_worker_reaped": true,
+  "database_writes": 0,
+  "model_requests": 0
+}

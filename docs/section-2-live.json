@@ -1,0 +1,278 @@
+{
+  "checked_at_utc": "2026-11-07T22:40:09.364299+00:00",
+  "status": "passed",
+  "runtime": {
+    "status": "ok",
+    "section": 2,
+    "version": "0.2.0"
+  },
+  "engine_version": "1.0.0",
+  "policy_version": "declared-client-v1",
+  "transport": "actual loopback HTTP and disposable offline workers",
+  "checks": [
+    {
+      "case": "original_breaking",
+      "http": 200,
+      "summary": {
+        "total_findings": 3,
+        "breaking": 3,
+        "potentially_breaking": 0,
+        "informational": 0,
+        "needs_review": 0
+      },
+      "verdict": "breaking_changes_detected"
+    },
+    {
+      "case": "identical",
+      "http": 200,
+      "summary": {
+        "total_findings": 0,
+        "breaking": 0,
+        "potentially_breaking": 0,
+        "informational": 0,
+        "needs_review": 0
+      },
+      "verdict": "no_breaking_changes_detected_in_supported_subset"
+    },
+    {
+      "case": "additive",
+      "http": 200,
+      "summary": {
+        "total_findings": 2,
+        "breaking": 0,
+        "potentially_breaking": 0,
+        "informational": 2,
+        "needs_review": 0
+      },
+      "verdict": "no_breaking_changes_detected_in_supported_subset"
+    },
+    {
+      "case": "request_enum_breaking",
+      "http": 200,
+      "summary": {
+        "total_findings": 1,
+        "breaking": 1,
+        "potentially_breaking": 0,
+        "informational": 0,
+        "needs_review": 0
+      },
+      "verdict": "breaking_changes_detected"
+    },
+    {
+      "case": "request_enum_informational",
+      "http": 200,
+      "summary": {
+        "total_findings": 1,
+        "breaking": 0,
+        "potentially_breaking": 0,
+        "informational": 1,
+        "needs_review": 0
+      },
+      "verdict": "no_breaking_changes_detected_in_supported_subset"
+    },
+    {
+      "case": "response_enum_breaking",
+      "http": 200,
+      "summary": {
+        "total_findings": 1,
+        "breaking": 1,
+        "potentially_breaking": 0,
+        "informational": 0,
+        "needs_review": 0
+      },
+      "verdict": "breaking_changes_detected"
+    },
+    {
+      "case": "response_enum_informational",
+      "http": 200,
+      "summary": {
+        "total_findings": 1,
+        "breaking": 0,
+        "potentially_breaking": 0,
+        "informational": 1,
+        "needs_review": 0
+      },
+      "verdict": "no_breaking_changes_detected_in_supported_subset"
+    },
+    {
+      "case": "request_integer_to_number",
+      "http": 200,
+      "summary": {
+        "total_findings": 1,
+        "breaking": 0,
+        "potentially_breaking": 0,
+        "informational": 1,
+        "needs_review": 0
+      },
+      "verdict": "no_breaking_changes_detected_in_supported_subset"
+    },
+    {
+      "case": "response_integer_to_number",
+      "http": 200,
+      "summary": {
+        "total_findings": 1,
+        "breaking": 1,
+        "potentially_breaking": 0,
+        "informational": 0,
+        "needs_review": 0
+      },
+      "verdict": "breaking_changes_detected"
+    },
+    {
+      "case": "unsupported_constraints_need_review",
+      "http": 200,
+      "summary": {
+        "total_findings": 1,
+        "breaking": 0,
+        "potentially_breaking": 0,
+        "informational": 0,
+        "needs_review": 1
+      },
+      "verdict": "review_required"
+    },
+    {
+      "case": "invalid_new",
+      "http": 422,
+      "code": "invalid_json"
+    },
+    {
+      "case": "oversized_new",
+      "http": 413,
+      "code": "file_too_large"
+    },
+    {
+      "case": "cross_origin",
+      "http": 403
+    },
+    {
+      "case": "chunked_comparison_stable_ids",
+      "http": 200
+    },
+    {
+      "case": "validation_route_preserved",
+      "http": 200
+    }
+  ],
+  "original_sample_findings": [
+    {
+      "id": "change-e2e02b141b81927f23da",
+      "rule_id": "request_property_required",
+      "severity": "breaking",
+      "policy_severity": "breaking",
+      "title": "Property added to the required list",
+      "method": "POST",
+      "path": "/orders",
+      "direction": "request",
+      "location": [
+        "requestBody",
+        "content",
+        "application/json",
+        "properties",
+        "currency"
+      ],
+      "before": {
+        "present": true,
+        "pointer": "#/paths/~1orders/post/requestBody/content/application~1json/schema/required",
+        "value": [
+          "item"
+        ]
+      },
+      "after": {
+        "present": true,
+        "pointer": "#/paths/~1orders/post/requestBody/content/application~1json/schema/required",
+        "value": [
+          "item",
+          "currency"
+        ]
+      },
+      "coverage_warning_ids": {
+        "old": [],
+        "new": []
+      }
+    },
+    {
+      "id": "change-6b657224667a8f1c4d09",
+      "rule_id": "schema_type_changed",
+      "severity": "breaking",
+      "policy_severity": "breaking",
+      "title": "Declared schema type changed",
+      "method": "POST",
+      "path": "/orders",
+      "direction": "response",
+      "location": [
+        "responses",
+        "201",
+        "content",
+        "application/json",
+        "properties",
+        "price"
+      ],
+      "before": {
+        "present": true,
+        "pointer": "#/components/schemas/Order/properties/price/type",
+        "value": "number"
+      },
+      "after": {
+        "present": true,
+        "pointer": "#/components/schemas/Order/properties/price/type",
+        "value": "object"
+      },
+      "coverage_warning_ids": {
+        "old": [],
+        "new": []
+      }
+    },
+    {
+      "id": "change-1bd47c92219e4e195c3e",
+      "rule_id": "operation_removed",
+      "severity": "breaking",
+      "policy_severity": "breaking",
+      "title": "HTTP operation removed",
+      "method": "GET",
+      "path": "/orders/{order_id}",
+      "direction": "operation",
+      "location": [],
+      "before": {
+        "present": true,
+        "pointer": "#/paths/~1orders~1%7Border_id%7D/get",
+        "value": {
+          "parameters": [
+            {
+              "name": "order_id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "An order",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Order"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "after": {
+        "present": false,
+        "pointer": null,
+        "expected_pointer": "#/paths/~1orders~1%7Border_id%7D/get",
+        "context_pointer": "#/paths",
+        "value": null
+      },
+      "coverage_warning_ids": {
+        "old": [],
+        "new": []
+      }
+    }
+  ],
+  "persistence": "none",
+  "ai_used": false
+}

@@ -1,0 +1,29 @@
+{
+  "checked_at_utc": "2026-11-07T23:39:49.660820+00:00",
+  "status": "passed",
+  "transport": "actual HTTP across an API process restart",
+  "runtime": {
+    "status": "ok",
+    "section": 3,
+    "version": "0.3.0"
+  },
+  "schema_revision": "0001_history",
+  "checks": [
+    "create 201 with complete snapshot",
+    "detail matches completed comparison",
+    "duplicate reuses same record",
+    "JSON export equals stored detail",
+    "Markdown summary and evidence match",
+    "paginated metadata includes fixture",
+    "failed validation leaves no additional record",
+    "stateless comparison does not save",
+    "cross-origin read and delete rejected",
+    "snapshot survived API restart",
+    "both exports byte-identical after restart",
+    "deletion removes detail and both exports",
+    "saved-record count restored to baseline"
+  ],
+  "temporary_fixture_deleted": true,
+  "preexisting_records_deleted": false,
+  "ai_used": false
+}

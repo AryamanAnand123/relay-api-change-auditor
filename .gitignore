@@ -1,0 +1,26 @@
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+pytest-cache-files-*/
+.coverage
+htmlcov/
+.env
+.env.*
+!.env.example
+node_modules/
+dist/
+*.log
+*.sqlite*
+*.db
+runtime/
+uploads/
+downloads/
+*.pem
+*.key
+.DS_Store
+# Reports downloaded with the README examples may contain private contracts.
+comparison-report.json
+comparison-report.md
+# Local review archives and extracted verification checkouts.
+release/

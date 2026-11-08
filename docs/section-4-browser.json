@@ -1,0 +1,23 @@
+{
+  "status": "passed",
+  "mode": "simulated API states using current-engine original fixtures",
+  "checks": [
+    "honest empty state and disabled incomplete comparison",
+    "example loading, real report shape, and duplicate-click prevention",
+    "severity/search/endpoint filters and matching evidence selection",
+    "export triggers a download with a safe generated filename",
+    "partial coverage and uncertainty stay visible",
+    "zero-change result makes no universal safe-upgrade claim",
+    "large numeric evidence is displayed exactly without rounding",
+    "untrusted titles and evidence render as text",
+    "validation errors retain files and identify the failing side",
+    "native confirmation supports cancel and exact-record deletion",
+    "history pagination, reopen, and saved-review reload bookmarks",
+    "mobile keyboard/panel navigation and no horizontal overflow",
+    "export of a review removed elsewhere clears the stale snapshot",
+    "unavailable history still permits an explicit unsaved comparison",
+    "no browser storage, uncaught errors, or external page requests"
+  ],
+  "uncaught_errors": [],
+  "external_requests": []
+}

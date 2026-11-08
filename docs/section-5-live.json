@@ -1,0 +1,74 @@
+{
+  "status": "passed",
+  "mode": "actual Chrome, FastAPI, SQLite, LangChain and Groq",
+  "checks": [
+    "saving and viewing findings makes zero automatic AI calls; explicit consent is required",
+    "real browser -> FastAPI -> LangChain -> Groq returns an explanation bound to the selected finding",
+    "one provider attempt; saved findings, severity, coverage, and exports remain identical",
+    "real AI guidance renders on desktop and mobile without horizontal overflow",
+    "reopened saved review reuses the backend cache without a second provider request",
+    "deletion removes the test report and its accessible guidance; no private rows or browser data remain"
+  ],
+  "provider_requests": 1,
+  "generated": {
+    "status": "generated",
+    "cached": false,
+    "finding_id": "change-e2e02b141b81927f23da",
+    "content": {
+      "finding_id": "change-e2e02b141b81927f23da",
+      "explanation": "The POST /orders request body now requires the \"currency\" property in addition to the previously required \"item\" property.",
+      "migration_steps": [
+        "Update client code to include a valid \"currency\" field in the JSON payload when calling POST /orders.",
+        "Ensure the value supplied for \"currency\" conforms to the API's expected format (consult the API spec for allowed values).",
+        "Remove any logic that assumes \"currency\" is optional."
+      ],
+      "verification_steps": [
+        "Send a test POST /orders request with both \"item\" and \"currency\" fields and confirm the request is accepted.",
+        "Send a test POST /orders request omitting \"currency\" and verify that the API rejects the request as expected.",
+        "Validate that responses for successful requests still contain the expected data structures."
+      ],
+      "caveats": [
+        "The evidence only shows the schema change; actual server enforcement of the new required field is not confirmed.",
+        "The exact format or allowed values for \"currency\" are not provided in the finding; consult the full API documentation."
+      ],
+      "evidence_references": [
+        "before",
+        "after"
+      ]
+    },
+    "provenance": {
+      "provider": "groq",
+      "requested_model": "openai/gpt-oss-120b",
+      "prompt_version": "migration-v3",
+      "generated_at": "2026-11-08T10:34:05.175055+00:00",
+      "attempts": 1,
+      "latency_ms": 2768,
+      "reported_model": "openai/gpt-oss-120b",
+      "system_fingerprint": "fp_5082008e34",
+      "usage": {
+        "input_tokens": 883,
+        "output_tokens": 323,
+        "total_tokens": 1206,
+        "output_token_details": {
+          "reasoning": 50
+        }
+      }
+    },
+    "references": {
+      "before": {
+        "pointer": "#/paths/~1orders/post/requestBody/content/application~1json/schema/required",
+        "present": true
+      },
+      "after": {
+        "pointer": "#/paths/~1orders/post/requestBody/content/application~1json/schema/required",
+        "present": true
+      }
+    },
+    "notice": "AI-generated guidance; verify it against the contract. Deterministic severity and coverage are unchanged."
+  },
+  "synthetic_examples_only": true,
+  "retained_test_rows": 0,
+  "preexisting_records_deleted": false,
+  "uncaught_errors": [],
+  "external_page_requests": []
+}

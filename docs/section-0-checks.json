@@ -1,0 +1,24 @@
+{
+  "checked_at_utc": "2026-11-07T19:15:11.258830+00:00",
+  "python": "3.12.4",
+  "isolated_environment": true,
+  "installed_packages_match_download_report": 25,
+  "unit_tests_passed": 4,
+  "http": {
+    "health": 200,
+    "root": 200,
+    "schema": 200,
+    "untrusted_host": 400,
+    "unimplemented_comparison": 404
+  },
+  "ignored_sensitive_runtime_paths": [
+    ".venv/Scripts/python.exe",
+    ".env",
+    "runtime/private.json",
+    "private.key",
+    "local.sqlite3"
+  ],
+  "common_secret_pattern_matches": 0,
+  "sample_json_files": 2,
+  "scope": "Section 0 foundation only; no OpenAPI semantic validation or comparison implemented"
+}

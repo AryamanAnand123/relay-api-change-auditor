@@ -1,0 +1,191 @@
+{
+  "status": "passed_structural_and_cache_checks",
+  "real_provider": true,
+  "synthetic_examples_only": true,
+  "calls": 3,
+  "automatic_retries": 0,
+  "authoritative_findings_unchanged": true,
+  "quality_review": "Review generated prose separately; schema and evidence binding do not establish factual correctness.",
+  "responses": [
+    {
+      "rule_id": "request_property_required",
+      "response": {
+        "status": "generated",
+        "cached": false,
+        "finding_id": "change-e2e02b141b81927f23da",
+        "content": {
+          "finding_id": "change-e2e02b141b81927f23da",
+          "explanation": "The POST /orders request body now requires the \"currency\" property in addition to the previously required \"item\" property.",
+          "migration_steps": [
+            "Add a non\u2011empty \"currency\" field to every request payload sent to POST /orders.",
+            "Update client code that builds the request JSON to include a valid \"currency\" value according to the API documentation.",
+            "If the client previously omitted \"currency\", add conditional logic to supply a default or prompt the user before sending the request."
+          ],
+          "verification_steps": [
+            "Send a POST /orders request without the \"currency\" field and confirm the API returns a validation error.",
+            "Send a POST /orders request that includes both \"item\" and a valid \"currency\" value and verify the request is accepted.",
+            "Check the API\u2019s OpenAPI/Swagger definition (or documentation) to ensure the \"currency\" field is listed as required and that its type matches expectations."
+          ],
+          "caveats": [
+            "The evidence only shows the change in the required list; other schema aspects (type, format, allowed values) for \"currency\" are not covered.",
+            "Full compatibility cannot be guaranteed without testing the live endpoint, as runtime behavior is not described in the contract."
+          ],
+          "evidence_references": [
+            "before",
+            "after"
+          ]
+        },
+        "provenance": {
+          "provider": "groq",
+          "requested_model": "openai/gpt-oss-120b",
+          "prompt_version": "migration-v3",
+          "generated_at": "2026-11-08T10:18:53.418256+00:00",
+          "attempts": 1,
+          "latency_ms": 2811,
+          "reported_model": "openai/gpt-oss-120b",
+          "system_fingerprint": "fp_c652c0ffaa",
+          "usage": {
+            "input_tokens": 883,
+            "output_tokens": 352,
+            "total_tokens": 1235,
+            "output_token_details": {
+              "reasoning": 88
+            }
+          }
+        },
+        "references": {
+          "before": {
+            "pointer": "#/paths/~1orders/post/requestBody/content/application~1json/schema/required",
+            "present": true
+          },
+          "after": {
+            "pointer": "#/paths/~1orders/post/requestBody/content/application~1json/schema/required",
+            "present": true
+          }
+        },
+        "notice": "AI-generated guidance; verify it against the contract. Deterministic severity and coverage are unchanged."
+      }
+    },
+    {
+      "rule_id": "schema_type_changed",
+      "response": {
+        "status": "generated",
+        "cached": false,
+        "finding_id": "change-6b657224667a8f1c4d09",
+        "content": {
+          "finding_id": "change-6b657224667a8f1c4d09",
+          "explanation": "The response schema for POST /orders changed the type of the price property from a number to an object. Callers that deserialize price as a numeric value will need to adjust their handling. The change is breaking for existing client code that expects a number.",
+          "migration_steps": [
+            "Update the client model for the Order response so that the price field is defined as a generic object or a custom type that can accommodate the new structure.",
+            "If the client needs the numeric value, add logic to extract the appropriate sub\u2011field from the price object after confirming its shape at runtime.",
+            "Review any validation or business logic that assumes price is numeric and modify it to work with the new object representation."
+          ],
+          "verification_steps": [
+            "Send a test POST /orders request and inspect the returned JSON to confirm the price field is an object.",
+            "Run unit tests that deserialize the Order response and verify that no type errors occur with the updated model.",
+            "Check that any calculations or comparisons involving price still behave correctly with the extracted numeric value."
+          ],
+          "caveats": [
+            "The exact structure of the new price object is not documented in the provided evidence; developers must examine the full schema or sample responses.",
+            "Evidence only covers the type change; other aspects of the response (required fields, additional properties) may also have changed."
+          ],
+          "evidence_references": [
+            "before",
+            "after"
+          ]
+        },
+        "provenance": {
+          "provider": "groq",
+          "requested_model": "openai/gpt-oss-120b",
+          "prompt_version": "migration-v3",
+          "generated_at": "2026-11-08T10:18:55.213262+00:00",
+          "attempts": 1,
+          "latency_ms": 1794,
+          "reported_model": "openai/gpt-oss-120b",
+          "system_fingerprint": "fp_803c0ba83d",
+          "usage": {
+            "input_tokens": 870,
+            "output_tokens": 374,
+            "total_tokens": 1244,
+            "output_token_details": {
+              "reasoning": 48
+            }
+          }
+        },
+        "references": {
+          "before": {
+            "pointer": "#/components/schemas/Order/properties/price/type",
+            "present": true
+          },
+          "after": {
+            "pointer": "#/components/schemas/Order/properties/price/type",
+            "present": true
+          }
+        },
+        "notice": "AI-generated guidance; verify it against the contract. Deterministic severity and coverage are unchanged."
+      }
+    },
+    {
+      "rule_id": "operation_removed",
+      "response": {
+        "status": "generated",
+        "cached": false,
+        "finding_id": "change-1bd47c92219e4e195c3e",
+        "content": {
+          "finding_id": "change-1bd47c92219e4e195c3e",
+          "explanation": "The GET /orders/{order_id} operation that existed in the previous contract is no longer declared in the current API specification.",
+          "migration_steps": [
+            "Identify any client code that invokes GET /orders/{order_id} and remove or disable those calls.",
+            "Contact the API owner to confirm whether a replacement endpoint exists and, if so, obtain its specification.",
+            "If a replacement is provided, update the client to call the new endpoint with the required request fields."
+          ],
+          "verification_steps": [
+            "Run integration tests that attempt the original GET /orders/{order_id} call and verify the response indicates the operation is unavailable (e.g., 404 or error).",
+            "If a replacement endpoint is supplied, add tests that exercise the new call and validate that required fields are present in the request and that the response matches the new schema.",
+            "Check the updated OpenAPI/Swagger document to ensure the removed operation is absent and any new operation is correctly described."
+          ],
+          "caveats": [
+            "The contract does not specify a replacement endpoint; the appropriate target must be confirmed with the API provider.",
+            "Evidence only shows the operation was removed from the specification; actual server behavior may differ and must be tested."
+          ],
+          "evidence_references": [
+            "before",
+            "after"
+          ]
+        },
+        "provenance": {
+          "provider": "groq",
+          "requested_model": "openai/gpt-oss-120b",
+          "prompt_version": "migration-v3",
+          "generated_at": "2026-11-08T10:18:56.845204+00:00",
+          "attempts": 1,
+          "latency_ms": 1631,
+          "reported_model": "openai/gpt-oss-120b",
+          "system_fingerprint": "fp_c15aa9c1b7",
+          "usage": {
+            "input_tokens": 864,
+            "output_tokens": 361,
+            "total_tokens": 1225,
+            "input_token_details": {
+              "cache_read": 512
+            },
+            "output_token_details": {
+              "reasoning": 56
+            }
+          }
+        },
+        "references": {
+          "before": {
+            "pointer": "#/paths/~1orders~1%7Border_id%7D/get",
+            "present": true
+          },
+          "after": {
+            "pointer": "#/paths/~1orders~1%7Border_id%7D/get",
+            "present": false
+          }
+        },
+        "notice": "AI-generated guidance; verify it against the contract. Deterministic severity and coverage are unchanged."
+      }
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "section": 7,
+  "status": "portfolio_prepared_for_review",
+  "application_version": "0.7.0",
+  "backend_tests_passed": 375,
+  "new_release_tests": 12,
+  "actual_portfolio_browser_checks_passed": 5,
+  "actual_loopback_HTTP_checks_passed": 10,
+  "public_example_reports": 6,
+  "public_report_reproduction": "byte_for_byte",
+  "frontend_build": "passed",
+  "clean_source_checkout": {
+    "backend_tests_passed": 375,
+    "python_environment": "Reused existing validated 66-package environment; not a fresh Python installation",
+    "npm_ci": {
+      "installed_packages": 19,
+      "audited_packages": 20,
+      "known_vulnerabilities": 0,
+      "dependency_lifecycle_scripts": false
+    },
+    "frontend_build": "passed",
+    "current_backend_and_frontend_source_match_verified_checkout": true,
+    "matched_source_files": 41,
+    "verified_source_tree_sha256": "7154ade16e287dcabe99c852073aff2b630bf5922de3852b8a42e37b827f23c9"
+  },
+  "new_dependency_versions": 0,
+  "new_model_downloads": 0,
+  "portfolio_demo_history_writes": 0,
+  "portfolio_demo_model_calls": 0,
+  "existing_history_metadata_masked": true,
+  "publication": {
+    "git_remote_configured": false,
+    "committed": false,
+    "pushed": false,
+    "hosted_deployment_created": false,
+    "proposed_repository": "relay-api-change-auditor",
+    "proposed_visibility": "public",
+    "approval": "pending"
+  },
+  "health": {
+    "status": "ok",
+    "section": 7,
+    "version": "0.7.0"
+  },
+  "documentation_links": "valid",
+  "trailing_whitespace": "none",
+  "installed_python_pins_verified": 66,
+  "credential_scan": "clean for actual project key and configured token/private-key patterns",
+  "source_candidate_review": "passed",
+  "publication_git_state_verified": true
+}

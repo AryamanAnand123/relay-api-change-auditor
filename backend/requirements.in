@@ -1,0 +1,11 @@
+# Resolve from official PyPI, then retain exact versions in requirements.lock.txt.
+fastapi
+uvicorn
+pydantic-settings
+httpx
+pytest
+openapi-spec-validator
+python-multipart
+SQLAlchemy>=2.0,<2.1
+alembic
+langchain-groq==1.1.3

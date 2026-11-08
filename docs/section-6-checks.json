@@ -1,0 +1,46 @@
+{
+  "section": 6,
+  "status": "verified_with_documented_AI_limitations",
+  "backend_tests_passed": 363,
+  "comparison_browser_checks_passed": 15,
+  "simulated_AI_browser_checks_passed": 9,
+  "actual_loopback_HTTP_checks_passed": 10,
+  "frozen_corpus_cases_passed": 90,
+  "expected_findings_matched": 56,
+  "evidence_sides_verified": 112,
+  "corpus_sha256": "7f2eb935e58d042484bd70d11a39745262a172f21487e41c85255f5ebd781665",
+  "engine_version": "1.0.1",
+  "policy_version": "declared-client-v1",
+  "first_attempt_AI_evaluation": {
+    "attempted": 6,
+    "accepted_structural_outputs": 5,
+    "not_generated": 1,
+    "manual_grades": {
+      "partially_grounded": 4,
+      "grounded": 1,
+      "not_generated": 1
+    },
+    "grounded_denominator_all_attempts": {
+      "numerator": 1,
+      "denominator": 6
+    },
+    "authoritative_reports_unchanged": 6,
+    "failed_attempts_without_latency_sample": 1,
+    "automatic_retries": 0,
+    "review_method": "Coding agent manual assessment against the frozen rubric; not an independent human/expert review or an LLM judge score",
+    "scope": "Original six-case first-attempt sample; not independent or general model accuracy."
+  },
+  "new_dependencies": 0,
+  "installed_python_pins_verified": 66,
+  "history_records_after_checks": 0,
+  "health": {
+    "status": "ok",
+    "section": 6,
+    "version": "0.6.0"
+  },
+  "manual_review_note": "AI prose assessment is an agent review of six original cases, not independent expert grading or general accuracy.",
+  "documentation_links": "valid",
+  "trailing_whitespace": "none",
+  "credential_scan": "clean",
+  "evaluation_lineage": "valid"
+}

@@ -1,0 +1,77 @@
+{
+  "checked_at_utc": "2026-11-07T20:38:41.753358+00:00",
+  "status": "passed",
+  "transport": "actual loopback HTTP and disposable validation subprocesses",
+  "checks": [
+    {
+      "case": "original_pair",
+      "http": 200,
+      "old_operations": 2,
+      "new_operations": 1
+    },
+    {
+      "case": "malformed_json",
+      "http": 422,
+      "code": "invalid_json"
+    },
+    {
+      "case": "duplicate_keys",
+      "http": 422,
+      "code": "duplicate_key"
+    },
+    {
+      "case": "invalid_structure",
+      "http": 422,
+      "code": "invalid_openapi"
+    },
+    {
+      "case": "unsupported_version",
+      "http": 422,
+      "code": "unsupported_version"
+    },
+    {
+      "case": "external_reference_https",
+      "http": 422,
+      "code": "unsupported_reference"
+    },
+    {
+      "case": "external_reference_file",
+      "http": 422,
+      "code": "unsupported_reference"
+    },
+    {
+      "case": "composition_warning",
+      "http": 200,
+      "coverage": "partial",
+      "warning": "schema_keywords_not_analyzed"
+    },
+    {
+      "case": "recursive_warning",
+      "http": 200,
+      "coverage": "partial",
+      "warning": "recursive_schema"
+    },
+    {
+      "case": "openapi_30",
+      "http": 200
+    },
+    {
+      "case": "encoded_reference_fragment",
+      "http": 200
+    },
+    {
+      "case": "oversized_file",
+      "http": 413
+    },
+    {
+      "case": "chunked_multipart",
+      "http": 200
+    },
+    {
+      "case": "cross_origin",
+      "http": 403
+    }
+  ],
+  "persistence": "none",
+  "comparison_performed": false
+}

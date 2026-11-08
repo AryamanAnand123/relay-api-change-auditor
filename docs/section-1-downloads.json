@@ -1,0 +1,798 @@
+{
+  "version": "1",
+  "pip_version": "24.0",
+  "install": [
+    {
+      "download_info": {
+        "url": "https://files.pythonhosted.org/packages/95/d8/321ff889330acca2e3097f3d4f80a40bcc41b6d34d302978ab32c449520b/openapi_spec_validator-0.9.0-py3-none-any.whl",
+        "archive_info": {
+          "hash": "sha256=222fecffc7714f6d0a6ad62c0e4b66cc2b7dbfafb7b93acfc6c308abbdb51af8",
+          "hashes": {
+            "sha256": "222fecffc7714f6d0a6ad62c0e4b66cc2b7dbfafb7b93acfc6c308abbdb51af8"
+          }
+        }
+      },
+      "is_direct": false,
+      "is_yanked": false,
+      "requested": true,
+      "metadata": {
+        "metadata_version": "2.4",
+        "name": "openapi-spec-validator",
+        "version": "0.9.0",
+        "summary": "OpenAPI 2.0 (aka Swagger) and OpenAPI 3 spec validator",
+        "description": "**********************\nOpenAPI Spec validator\n**********************\n\n.. image:: https://img.shields.io/docker/v/pythonopenapi/openapi-spec-validator.svg?color=%23086DD7&label=docker%20hub&sort=semver\n     :target: https://hub.docker.com/r/pythonopenapi/openapi-spec-validator\n.. image:: https://img.shields.io/pypi/v/openapi-spec-validator.svg\n     :target: https://pypi.python.org/pypi/openapi-spec-validator\n.. image:: https://img.shields.io/codecov/c/github/python-openapi/openapi-spec-validator/master.svg?style=flat\n     :target: https://codecov.io/github/python-openapi/openapi-spec-validator?branch=master\n.. image:: https://img.shields.io/pypi/pyversions/openapi-spec-validator.svg\n     :target: https://pypi.python.org/pypi/openapi-spec-validator\n.. image:: https://img.shields.io/pypi/format/openapi-spec-validator.svg\n     :target: https://pypi.python.org/pypi/openapi-spec-validator\n.. image:: https://img.shields.io/pypi/status/openapi-spec-validator.svg\n     :target: https://pypi.python.org/pypi/openapi-spec-validator\n\nAbout\n#####\n\nOpenAPI Spec Validator is a CLI, pre-commit hook and python package that validates OpenAPI Specs\nagainst the `OpenAPI 2.0 (aka Swagger)\n<https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md>`__,\n`OpenAPI 3.0 <https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.3.md>`__\n`OpenAPI 3.1 <https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.1.0.md>`__\nand `OpenAPI 3.2 <https://spec.openapis.org/oas/v3.2.0.html>`__\nspecification. The validator aims to check for full compliance with the Specification.\n\n\nDocumentation\n#############\n\nCheck documentation to see more details about the features. All documentation is in the \"docs\" directory and online at `openapi-spec-validator.readthedocs.io <https://openapi-spec-validator.readthedocs.io>`__\n\n\nInstallation\n############\n\n.. code-block:: console\n\n    pip install openapi-spec-validator\n\nAlternatively you can download the code and install from the repository:\n\n.. code-block:: bash\n\n   pip install -e git+https://github.com/python-openapi/openapi-spec-validator.git#egg=openapi_spec_validator\n\n\nUsage\n#####\n\nCLI (Command Line Interface)\n****************************\n\nStraight forward way:\n\n.. code-block:: bash\n\n    openapi-spec-validator openapi.yaml\n\npipes way:\n\n.. code-block:: bash\n\n    cat openapi.yaml | openapi-spec-validator -\n\ndocker way:\n\n.. code-block:: bash\n\n    docker run -v path/to/openapi.yaml:/openapi.yaml --rm pythonopenapi/openapi-spec-validator /openapi.yaml\n\nor more pythonic way:\n\n.. code-block:: bash\n\n    python -m openapi_spec_validator openapi.yaml\n\nFor more details, read about `CLI (Command Line Interface) <https://openapi-spec-validator.readthedocs.io/en/latest/cli.html>`__.\n\npre-commit hook\n***************\n\n.. code-block:: yaml\n\n   repos:\n   -   repo: https://github.com/python-openapi/openapi-spec-validator\n       rev: 0.9.0 # The version to use or 'master' for latest\n       hooks:\n       -   id: openapi-spec-validator\n\nFor more details, read about `pre-commit hook <https://openapi-spec-validator.readthedocs.io/en/latest/hook.html>`__.\n\nPython package\n**************\n\n.. code:: python\n\n    from openapi_spec_validator import validate\n    from openapi_spec_validator.readers import read_from_filename\n\n    spec_dict, base_uri = read_from_filename('openapi.yaml')\n\n    # If no exception is raised by validate(), the spec is valid.\n    validate(spec_dict)\n\n    # Example of an intentionally invalid spec.\n    invalid_spec = {'openapi': '3.1.0'}\n\n    validate(invalid_spec)\n\n    Traceback (most recent call last):\n        ...\n    OpenAPIValidationError: 'info' is a required property\n\nFor more details, read about `Python package <https://openapi-spec-validator.readthedocs.io/en/latest/python.html>`__.\n\nPerformance tuning\n******************\n\nYou can tune resolved-path caching with an environment variable:\n\n.. code-block:: bash\n\n    OPENAPI_SPEC_VALIDATOR_RESOLVED_CACHE_MAXSIZE=2048\n\nRules:\n\n* Default is ``128``.\n* Set ``0`` to disable the resolved cache.\n* Invalid values (non-integer or negative) fall back to ``128``.\n\nYou can also choose schema validator backend:\n\n.. code-block:: bash\n\n    OPENAPI_SPEC_VALIDATOR_SCHEMA_VALIDATOR_BACKEND=jsonschema-rs\n\nAllowed values are ``auto`` (default), ``jsonschema``, and\n``jsonschema-rs``.\nInvalid values raise a warning and fall back to ``auto``.\n\nIf you select the ``jsonschema-rs`` backend, make sure the optional\n``jsonschema-rs`` package is installed:\n\n.. code-block:: bash\n\n    pip install jsonschema-rs\n\nRelated projects\n################\n\n* `openapi-core <https://github.com/python-openapi/openapi-core>`__\n   Python library that adds client-side and server-side support for the OpenAPI v3.0, OpenAPI v3.1 and OpenAPI v3.2 specification.\n* `openapi-schema-validator <https://github.com/python-openapi/openapi-schema-validator>`__\n   Python library that validates schema against the OpenAPI Schema Specification v3.0, OpenAPI Schema Specification v3.1 and OpenAPI Schema Specification v3.2.\n\nLicense\n#######\n\nCopyright (c) 2017-2023, Artur Maciag, All rights reserved. Apache v2\n\n",
+        "description_content_type": "text/x-rst",
+        "keywords": [
+          "openapi",
+          "swagger",
+          "schema"
+        ],
+        "author": "Artur Maciag",
+        "author_email": "maciag.artur@gmail.com",
+        "classifier": [
+          "Development Status :: 4 - Beta",
+          "Intended Audience :: Developers",
+          "Topic :: Software Development :: Libraries :: Python Modules",
+          "Operating System :: OS Independent",
+          "Programming Language :: Python :: 3",
+          "Programming Language :: Python :: 3.10",
+          "Programming Language :: Python :: 3.11",
+          "Programming Language :: Python :: 3.12",
+          "Programming Language :: Python :: 3.13",
+          "Programming Language :: Python :: 3.14",
+          "Topic :: Software Development :: Libraries",
+          "Typing :: Typed"
+        ],
+        "requires_dist": [
+          "jsonschema (>=4.26.0,<5.0.0)",
+          "jsonschema-path (>=0.5.0,<0.6.0)",
+          "lazy-object-proxy (>=1.7.1,<2.0)",
+          "openapi-schema-validator (>=0.9.0,<0.10.0)",
+          "pydantic (>=2.0.0,<3.0.0)",
+          "pydantic-settings (>=2.0.0,<3.0.0)"
+        ],
+        "requires_python": ">=3.10,<4.0",
+        "project_url": [
+          "Documentation, https://openapi-spec-validator.readthedocs.io/en/latest/",
+          "Source, https://github.com/python-openapi/openapi-spec-validator"
+        ]
+      }
+    },
+    {
+      "download_info": {
+        "url": "https://files.pythonhosted.org/packages/dd/1b/6b1b4164ec734cac911460ab599bfbe46afedd42c5c9627fe4235942c314/python_multipart-0.0.33-py3-none-any.whl",
+        "archive_info": {
+          "hash": "sha256=8f16c07b36add9da6b2ee87d3efcaf0a45a6de9c3d0a5dd94e9ccf7675a7bc45",
+          "hashes": {
+            "sha256": "8f16c07b36add9da6b2ee87d3efcaf0a45a6de9c3d0a5dd94e9ccf7675a7bc45"
+          }
+        }
+      },
+      "is_direct": false,
+      "is_yanked": false,
+      "requested": true,
+      "metadata": {
+        "metadata_version": "2.5",
+        "name": "python-multipart",
+        "version": "0.0.33",
+        "summary": "A streaming multipart parser for Python",
+        "description": "# Python-Multipart\n\n[![CI](https://github.com/Kludex/python-multipart/actions/workflows/main.yml/badge.svg)](https://github.com/Kludex/python-multipart/actions/workflows/main.yml)\n[![PyPI](https://img.shields.io/pypi/v/python-multipart.svg)](https://pypi.org/project/python-multipart)\n[![Python versions](https://img.shields.io/pypi/pyversions/python-multipart.svg)](https://pypi.org/project/python-multipart)\n[![Discord](https://img.shields.io/discord/1051468649518616576?logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2)](https://discord.gg/RxKUF5JuHs)\n\nPython-Multipart reads the data that a web browser sends when someone submits a form or uploads a file.\n\n```console\npip install python-multipart\n```\n\nIt powers file uploads in [Starlette](https://starlette.dev) and [FastAPI](https://fastapi.tiangolo.com).\n\n## What problem does it solve?\n\n### A form sends data\n\nWhen you fill in a form on a website and click \"Submit\", your browser sends the data to a server.\nThe server is a program, maybe written in Python, that has to read that data and make sense of it.\n\n### Files need a special format\n\nA form with only text, like a username, is sent as one short line: `username=alice`.\n\nA form with a file is different. A file can contain anything, even text that looks like `username=alice`.\nSo the browser uses a format called `multipart/form-data`. It splits the request into **parts**, one per form field, separated by a **boundary**: a marker string the browser picks.\n\nThis is what the server receives when you send a username and a file called `cat.txt`:\n\n```text\n--boundary\nContent-Disposition: form-data; name=\"username\"\n\nalice\n--boundary\nContent-Disposition: form-data; name=\"avatar\"; filename=\"cat.txt\"\nContent-Type: text/plain\n\nmeow\n--boundary--\n```\n\nEach part has some headers (the field name, the file name) and then the content.\nEvery line ends with `\\r\\n` (a carriage return and a newline), which is why the examples below write `\\r\\n` explicitly.\nA **parser** is the code that turns this text back into fields and files. Python-Multipart is that parser.\n\n### Big files do not fit in memory\n\nAn upload can be a 5 GB video. If the server reads the whole request before it starts working, it needs 5 GB of memory, per upload.\n\nPython-Multipart is a **streaming** parser. You give it the request a small piece (a **chunk**) at a time, and it tells you what it found as soon as it finds it. The full request never has to be in memory.\n\n## Usage\n\n### Parse a whole form\n\n```python\nfrom io import BytesIO\n\nfrom python_multipart import parse_form\n\nbody = (\n    b\"--boundary\\r\\n\"\n    b'Content-Disposition: form-data; name=\"username\"\\r\\n'\n    b\"\\r\\n\"\n    b\"alice\\r\\n\"\n    b\"--boundary\\r\\n\"\n    b'Content-Disposition: form-data; name=\"avatar\"; filename=\"cat.txt\"\\r\\n'\n    b\"Content-Type: text/plain\\r\\n\"\n    b\"\\r\\n\"\n    b\"meow\\r\\n\"\n    b\"--boundary--\\r\\n\"\n)\nheaders = {\"Content-Type\": \"multipart/form-data; boundary=boundary\"}\n\n\ndef on_field(field):\n    print(\"Field:\", field.field_name, \"=\", field.value)\n\n\ndef on_file(file):\n    file.file_object.seek(0)\n    print(\"File:\", file.field_name, file.file_name, file.file_object.read())\n\n\nparse_form(headers, BytesIO(body), on_field, on_file)\n```\n\nOutput:\n\n```text\nField: b'username' = b'alice'\nFile: b'avatar' b'cat.txt' b'meow'\n```\n\n`parse_form` reads the body in chunks and calls your functions:\n\n- `on_field` runs for every text field.\n- `on_file` runs for every uploaded file.\n\nSmall files stay in memory. Once a file grows past 1 MiB, it is moved to a temporary file on disk, so a large upload does not fill up your memory.\n\n> **Real servers do not use `BytesIO`.** In a real application, the body comes from the network. Any object with a `read()` method that returns `bytes` works.\n\n### Handle each chunk yourself\n\n`parse_form` still saves every file somewhere. When you want full control, for example to send an upload straight to cloud storage, use `MultipartParser`:\n\n```python\nfrom python_multipart import MultipartParser\n\nchunks = [\n    b\"--boundary\\r\\n\",\n    b'Content-Disposition: form-data; name=\"avatar\"; filename=\"cat.txt\"\\r\\n\\r\\n',\n    b\"me\",\n    b\"ow\\r\\n--boundary--\\r\\n\",\n]\n\n\ndef on_part_data(data, start, end):\n    print(\"Got a piece of the file:\", data[start:end])\n\n\nparser = MultipartParser(\"boundary\", callbacks={\"on_part_data\": on_part_data})\nfor chunk in chunks:\n    parser.write(chunk)\nparser.finalize()\n```\n\nOutput:\n\n```text\nGot a piece of the file: b'me'\nGot a piece of the file: b'ow'\n```\n\nThe file arrived in two chunks, and you saw each one as it arrived. Nothing was stored.\n\nInstead of copying data, the parser passes you a buffer plus `start` and `end` positions that mark the part you care about.\n\n## Learn more\n\n- [Documentation](https://kludex.github.io/python-multipart/)\n- [API reference](https://kludex.github.io/python-multipart/api/)\n- [Changelog](https://github.com/Kludex/python-multipart/blob/main/CHANGELOG.md)\n\n## License\n\nApache 2.0. See [LICENSE.txt](LICENSE.txt).\n",
+        "description_content_type": "text/markdown",
+        "author_email": "Andrew Dunham <andrew@du.nham.ca>",
+        "maintainer_email": "Marcelo Trylesinski <marcelotryle@gmail.com>",
+        "classifier": [
+          "Development Status :: 5 - Production/Stable",
+          "Environment :: Web Environment",
+          "Intended Audience :: Developers",
+          "License :: OSI Approved :: Apache Software License",
+          "Operating System :: OS Independent",
+          "Programming Language :: Python :: 3",
+          "Programming Language :: Python :: 3 :: Only",
+          "Programming Language :: Python :: 3.11",
+          "Programming Language :: Python :: 3.12",
+          "Programming Language :: Python :: 3.13",
+          "Programming Language :: Python :: 3.14",
+          "Programming Language :: Python :: 3.15",
+          "Topic :: Software Development :: Libraries :: Python Modules"
+        ],
+        "requires_python": ">=3.11",
+        "project_url": [
+          "Homepage, https://github.com/Kludex/python-multipart",
+          "Documentation, https://kludex.github.io/python-multipart/",
+          "Changelog, https://github.com/Kludex/python-multipart/blob/master/CHANGELOG.md",
+          "Source, https://github.com/Kludex/python-multipart"
+        ]
+      }
+    },
+    {
+      "download_info": {
+        "url": "https://files.pythonhosted.org/packages/69/90/f63fb5873511e014207a475e2bb4e8b2e570d655b00ac19a9a0ca0a385ee/jsonschema-4.26.0-py3-none-any.whl",
+        "archive_info": {
+          "hash": "sha256=d489f15263b8d200f8387e64b4c3a75f06629559fb73deb8fdfb525f2dab50ce",
+          "hashes": {
+            "sha256": "d489f15263b8d200f8387e64b4c3a75f06629559fb73deb8fdfb525f2dab50ce"
+          }
+        }
+      },
+      "is_direct": false,
+      "is_yanked": false,
+      "requested": false,
+      "metadata": {
+        "metadata_version": "2.4",
+        "name": "jsonschema",
+        "version": "4.26.0",
+        "summary": "An implementation of JSON Schema validation for Python",
+        "description": "==========\njsonschema\n==========\n\n|PyPI| |Pythons| |CI| |ReadTheDocs| |Precommit| |Zenodo|\n\n.. |PyPI| image:: https://img.shields.io/pypi/v/jsonschema.svg\n   :alt: PyPI version\n   :target: https://pypi.org/project/jsonschema/\n\n.. |Pythons| image:: https://img.shields.io/pypi/pyversions/jsonschema.svg\n   :alt: Supported Python versions\n   :target: https://pypi.org/project/jsonschema/\n\n.. |CI| image:: https://github.com/python-jsonschema/jsonschema/workflows/CI/badge.svg\n  :alt: Build status\n  :target: https://github.com/python-jsonschema/jsonschema/actions?query=workflow%3ACI\n\n.. |ReadTheDocs| image:: https://readthedocs.org/projects/python-jsonschema/badge/?version=stable&style=flat\n   :alt: ReadTheDocs status\n   :target: https://python-jsonschema.readthedocs.io/en/stable/\n\n.. |Precommit| image:: https://results.pre-commit.ci/badge/github/python-jsonschema/jsonschema/main.svg\n   :alt: pre-commit.ci status\n   :target: https://results.pre-commit.ci/latest/github/python-jsonschema/jsonschema/main\n\n.. |Zenodo| image:: https://zenodo.org/badge/3072629.svg\n   :alt: Zenodo DOI\n   :target: https://zenodo.org/badge/latestdoi/3072629\n\n\n``jsonschema`` is an implementation of the `JSON Schema <https://json-schema.org>`_ specification for Python.\n\n.. code:: python\n\n    >>> from jsonschema import validate\n\n    >>> # A sample schema, like what we'd get from json.load()\n    >>> schema = {\n    ...     \"type\" : \"object\",\n    ...     \"properties\" : {\n    ...         \"price\" : {\"type\" : \"number\"},\n    ...         \"name\" : {\"type\" : \"string\"},\n    ...     },\n    ... }\n\n    >>> # If no exception is raised by validate(), the instance is valid.\n    >>> validate(instance={\"name\" : \"Eggs\", \"price\" : 34.99}, schema=schema)\n\n    >>> validate(\n    ...     instance={\"name\" : \"Eggs\", \"price\" : \"Invalid\"}, schema=schema,\n    ... )                                   # doctest: +IGNORE_EXCEPTION_DETAIL\n    Traceback (most recent call last):\n        ...\n    ValidationError: 'Invalid' is not of type 'number'\n\nIt can also be used from the command line by installing `check-jsonschema <https://github.com/python-jsonschema/check-jsonschema>`_.\n\nFeatures\n--------\n\n* Full support for `Draft 2020-12 <https://python-jsonschema.readthedocs.io/en/latest/api/jsonschema/validators/#jsonschema.validators.Draft202012Validator>`_, `Draft 2019-09 <https://python-jsonschema.readthedocs.io/en/latest/api/jsonschema/validators/#jsonschema.validators.Draft201909Validator>`_, `Draft 7 <https://python-jsonschema.readthedocs.io/en/latest/api/jsonschema/validators/#jsonschema.validators.Draft7Validator>`_, `Draft 6 <https://python-jsonschema.readthedocs.io/en/latest/api/jsonschema/validators/#jsonschema.validators.Draft6Validator>`_, `Draft 4 <https://python-jsonschema.readthedocs.io/en/latest/api/jsonschema/validators/#jsonschema.validators.Draft4Validator>`_ and `Draft 3 <https://python-jsonschema.readthedocs.io/en/latest/api/jsonschema/validators/#jsonschema.validators.Draft3Validator>`_\n\n* `Lazy validation <https://python-jsonschema.readthedocs.io/en/latest/api/jsonschema/protocols/#jsonschema.protocols.Validator.iter_errors>`_ that can iteratively report *all* validation errors.\n\n* `Programmatic querying <https://python-jsonschema.readthedocs.io/en/latest/errors/>`_ of which properties or items failed validation.\n\n\nInstallation\n------------\n\n``jsonschema`` is available on `PyPI <https://pypi.org/project/jsonschema/>`_. You can install using `pip <https://pip.pypa.io/en/stable/>`_:\n\n.. code:: bash\n\n    $ pip install jsonschema\n\n\nExtras\n======\n\nTwo extras are available when installing the package, both currently related to ``format`` validation:\n\n    * ``format``\n    * ``format-nongpl``\n\nThey can be used when installing in order to include additional dependencies, e.g.:\n\n.. code:: bash\n\n    $ pip install jsonschema'[format]'\n\nBe aware that the mere presence of these dependencies – or even the specification of ``format`` checks in a schema – do *not* activate format checks (as per the specification).\nPlease read the `format validation documentation <https://python-jsonschema.readthedocs.io/en/latest/validate/#validating-formats>`_ for further details.\n\nAbout\n-----\n\nI'm Julian Berman.\n\n``jsonschema`` is on `GitHub <https://github.com/python-jsonschema/jsonschema>`_.\n\nGet in touch, via GitHub or otherwise, if you've got something to contribute, it'd be most welcome!\n\nIf you feel overwhelmingly grateful, you can also `sponsor me <https://github.com/sponsors/Julian/>`_.\n\nAnd for companies who appreciate ``jsonschema`` and its continued support and growth, ``jsonschema`` is also now supportable via `TideLift <https://tidelift.com/subscription/pkg/pypi-jsonschema?utm_source=pypi-jsonschema&utm_medium=referral&utm_campaign=readme>`_.\n\n\nRelease Information\n-------------------\n\nv4.26.0\n=======\n\n* Decrease import time by delaying importing of ``urllib.request`` (#1416).\n",
+        "description_content_type": "text/x-rst",
+        "keywords": [
+          "data validation",
+          "json",
+          "json schema",
+          "jsonschema",
+          "validation"
+        ],
+        "author_email": "Julian Berman <Julian+jsonschema@GrayVines.com>",
+        "classifier": [
+          "Development Status :: 5 - Production/Stable",
+          "Intended Audience :: Developers",
+          "Operating System :: OS Independent",
+          "Programming Language :: Python",
+          "Programming Language :: Python :: 3.10",
+          "Programming Language :: Python :: 3.11",
+          "Programming Language :: Python :: 3.12",
+          "Programming Language :: Python :: 3.13",
+          "Programming Language :: Python :: 3.14",
+          "Programming Language :: Python :: Implementation :: CPython",
+          "Programming Language :: Python :: Implementation :: PyPy",
+          "Topic :: File Formats :: JSON",
+          "Topic :: File Formats :: JSON :: JSON Schema"
+        ],
+        "requires_dist": [
+          "attrs>=22.2.0",
+          "jsonschema-specifications>=2023.03.6",
+          "referencing>=0.28.4",
+          "rpds-py>=0.25.0",
+          "fqdn; extra == 'format'",
+          "idna; extra == 'format'",
+          "isoduration; extra == 'format'",
+          "jsonpointer>1.13; extra == 'format'",
+          "rfc3339-validator; extra == 'format'",
+          "rfc3987; extra == 'format'",
+          "uri-template; extra == 'format'",
+          "webcolors>=1.11; extra == 'format'",
+          "fqdn; extra == 'format-nongpl'",
+          "idna; extra == 'format-nongpl'",
+          "isoduration; extra == 'format-nongpl'",
+          "jsonpointer>1.13; extra == 'format-nongpl'",
+          "rfc3339-validator; extra == 'format-nongpl'",
+          "rfc3986-validator>0.1.0; extra == 'format-nongpl'",
+          "rfc3987-syntax>=1.1.0; extra == 'format-nongpl'",
+          "uri-template; extra == 'format-nongpl'",
+          "webcolors>=24.6.0; extra == 'format-nongpl'"
+        ],
+        "requires_python": ">=3.10",
+        "project_url": [
+          "Homepage, https://github.com/python-jsonschema/jsonschema",
+          "Documentation, https://python-jsonschema.readthedocs.io/",
+          "Issues, https://github.com/python-jsonschema/jsonschema/issues/",
+          "Funding, https://github.com/sponsors/Julian",
+          "Tidelift, https://tidelift.com/subscription/pkg/pypi-jsonschema?utm_source=pypi-jsonschema&utm_medium=referral&utm_campaign=pypi-link",
+          "Changelog, https://github.com/python-jsonschema/jsonschema/blob/main/CHANGELOG.rst",
+          "Source, https://github.com/python-jsonschema/jsonschema"
+        ],
+        "provides_extra": [
+          "format",
+          "format-nongpl"
+        ]
+      }
+    },
+    {
+      "download_info": {
+        "url": "https://files.pythonhosted.org/packages/04/2c/9e69d73c4297508be9e3b64a970ea3971b3eb8db64ffc5802d40bd25981f/jsonschema_path-0.5.0-py3-none-any.whl",
+        "archive_info": {
+          "hash": "sha256=2790a070bc7abb08ea3dbe4d340ece4efadf639223001f020c7503229ba068e2",
+          "hashes": {
+            "sha256": "2790a070bc7abb08ea3dbe4d340ece4efadf639223001f020c7503229ba068e2"
+          }
+        }
+      },
+      "is_direct": false,
+      "is_yanked": false,
+      "requested": false,
+      "metadata": {
+        "metadata_version": "2.4",
+        "name": "jsonschema-path",
+        "version": "0.5.0",
+        "summary": "JSONSchema Spec with object-oriented paths",
+        "description": "***************\nJSONSchema Path\n***************\n\n.. image:: https://img.shields.io/pypi/v/jsonschema-path.svg\n     :target: https://pypi.python.org/pypi/jsonschema-path\n.. image:: https://travis-ci.org/p1c2u/jsonschema-path.svg?branch=master\n     :target: https://travis-ci.org/p1c2u/jsonschema-path\n.. image:: https://img.shields.io/codecov/c/github/p1c2u/jsonschema-path/master.svg?style=flat\n     :target: https://codecov.io/github/p1c2u/jsonschema-path?branch=master\n.. image:: https://img.shields.io/pypi/pyversions/jsonschema-path.svg\n     :target: https://pypi.python.org/pypi/jsonschema-path\n.. image:: https://img.shields.io/pypi/format/jsonschema-path.svg\n     :target: https://pypi.python.org/pypi/jsonschema-path\n.. image:: https://img.shields.io/pypi/status/jsonschema-path.svg\n     :target: https://pypi.python.org/pypi/jsonschema-path\n\nAbout\n#####\n\nObject-oriented JSONSchema\n\nKey features\n############\n\n* Traverse schema like paths\n* Access schema on demand with separate dereferencing accessor layer\n\nInstallation\n############\n\n.. code-block:: console\n\n   pip install jsonschema-path\n\nAlternatively you can download the code and install from the repository:\n\n.. code-block:: console\n\n   pip install -e git+https://github.com/p1c2u/jsonschema-path.git#egg=jsonschema_path\n\n\nUsage\n#####\n\n.. code-block:: python\n\n   >>> from jsonschema_path import SchemaPath\n   \n   >>> d = {\n   ...     \"properties\": {\n   ...        \"info\": {\n   ...            \"$ref\": \"#/$defs/Info\",\n   ...        },\n   ...     },\n   ...     \"$defs\": {\n   ...         \"Info\": {\n   ...             \"properties\": {\n   ...                 \"title\": {\n   ...                     \"$ref\": \"http://example.com\",\n   ...                 },\n   ...                 \"version\": {\n   ...                     \"type\": \"string\",\n   ...                     \"default\": \"1.0\",\n   ...                 },\n   ...             },\n   ...         },\n   ...     },\n   ... }\n   \n   >>> path = SchemaPath.from_dict(d)\n   \n   >>> # Stat keys\n   >>> \"properties\" in path\n   True\n   \n   >>> # Concatenate paths with /\n   >>> info_path = path / \"properties\" / \"info\"\n   \n   >>> # Stat keys with implicit dereferencing\n   >>> \"properties\" in info_path\n   True\n   \n   >>> # Concatenate paths with implicit dereferencing\n   >>> version_path = info_path / \"properties\" / \"version\"\n   \n   >>> # Open content with implicit dereferencing\n   >>> with version_path.open() as contents:\n   ...     print(contents)\n   {'type': 'string', 'default': '1.0'}\n\nIdentity and equality\n#####################\n\nTwo ``SchemaPath`` instances are equal if they have the same ``parts``\n*and* point to the same ``SchemaAccessor``. ``SchemaAccessor`` identity\nis per-resource-handle: same wrapped dict (by reference), same\n``base_uri``, and same internal resolver instance. In practice:\n\n* Paths derived from the *same* accessor compare equal as expected:\n\n  .. code-block:: python\n\n     >>> accessor = SchemaAccessor.from_schema(d)\n     >>> SchemaPath(accessor) / \"properties\" == SchemaPath(accessor) / \"properties\"\n     True\n\n* Paths from *separate* ``from_dict`` or ``from_schema`` calls do **not**\n  compare equal even with identical arguments, because each call builds\n  its own accessor:\n\n  .. code-block:: python\n\n     >>> SchemaPath.from_dict(d) == SchemaPath.from_dict(d)\n     False\n\n* ``SchemaAccessor`` is hashable, so accessors and paths can be used as\n  set members and dict keys.\n\nThis is also why the \"build one accessor, reuse it\" pattern below\nmatters: it is both a caching optimisation and the contract you need\nfor path equality to behave the way you expect.\n\nResolved cache\n##############\n\nThe resolved-path cache is intended for repeated path lookups and may significantly improve\n``read_value``/membership hot paths. When the underlying ``referencing``\nregistry grows (e.g. an external ``$ref`` pulls in a new document),\ncached entries are *rebound* to the new registry on read instead of\nbeing discarded. This relies on registries growing monotonically —\nresources are added, never replaced. Handlers that return drifting\ncontent for the same URI violate that assumption; disable caching with\n``resolved_cache_maxsize=0`` if you need to defend against it.\n\nThis cache is enabled by default\n(``resolved_cache_maxsize=128``). You can disable it when creating paths or\naccessors, for example:\n\n.. code-block:: python\n\n   >>> path = SchemaPath.from_dict(d, resolved_cache_maxsize=0)\n\nBuild **one** :code:`SchemaAccessor` per schema document and reuse it for\nevery :code:`SchemaPath` you derive from that document. Treat the accessor\nas the long-lived handle to the resource; treat paths as cheap views over\nit.\n\n.. code-block:: python\n\n   >>> from jsonschema_path import SchemaAccessor, SchemaPath\n\n   >>> # Construct the accessor once, with caching enabled.\n   >>> accessor = SchemaAccessor.from_schema(d, resolved_cache_maxsize=128)\n\n   >>> # Derive as many paths as you like from the same accessor.\n   >>> root = SchemaPath(accessor)\n   >>> info = root / \"properties\" / \"info\"\n   >>> version = info / \"properties\" / \"version\"\n\n   >>> # Every path over `accessor` shares the same resolved-ref cache.\n   >>> with version.open() as contents:\n   ...     ...\n\nBenchmarks\n##########\n\nBenchmarks mirror the lightweight (dependency-free) JSON output format used in\n`pathable`.\n\nRun locally with Poetry:\n\n.. code-block:: console\n\n   poetry run python -m tests.benchmarks.bench_parse --output reports/bench-parse.json\n   poetry run python -m tests.benchmarks.bench_lookup --output reports/bench-lookup.json\n\nFor a quick smoke run:\n\n.. code-block:: console\n\n   poetry run python -m tests.benchmarks.bench_parse --output reports/bench-parse.quick.json --quick\n   poetry run python -m tests.benchmarks.bench_lookup --output reports/bench-lookup.quick.json --quick\n\nYou can also control repeats/warmup and resolved cache maxsize via env vars:\n\n.. code-block:: console\n\n   export JSONSCHEMA_PATH_BENCH_REPEATS=5\n   export JSONSCHEMA_PATH_BENCH_WARMUP=1\n   export JSONSCHEMA_PATH_BENCH_RESOLVED_CACHE_MAXSIZE=64\n\nCompare two results:\n\n.. code-block:: console\n\n    poetry run python -m tests.benchmarks.compare_results \\\n       --baseline reports/bench-lookup-master.json \\\n       --candidate reports/bench-lookup.json \\\n       --tolerance 0.20\n\n\nRelated projects\n################\n\n* `openapi-core <https://github.com/p1c2u/openapi-core>`__\n   Python library that adds client-side and server-side support for the OpenAPI.\n* `openapi-spec-validator <https://github.com/p1c2u/openapi-spec-validator>`__\n   Python library that validates OpenAPI Specs against the OpenAPI 2.0 (aka Swagger) and OpenAPI 3.0 specification\n* `openapi-schema-validator <https://github.com/p1c2u/openapi-schema-validator>`__\n   Python library that validates schema against the OpenAPI Schema Specification v3.0.\n\nLicense\n#######\n\nCopyright (c) 2017-2025, Artur Maciag, All rights reserved. Apache-2.0\n\n",
+        "description_content_type": "text/x-rst",
+        "keywords": [
+          "jsonschema",
+          "swagger",
+          "spec"
+        ],
+        "author": "Artur Maciag",
+        "author_email": "maciag.artur@gmail.com",
+        "license": "Apache-2.0",
+        "classifier": [
+          "Development Status :: 4 - Beta",
+          "Intended Audience :: Developers",
+          "License :: OSI Approved :: Apache Software License",
+          "Operating System :: OS Independent",
+          "Programming Language :: Python :: 3",
+          "Programming Language :: Python :: 3.10",
+          "Programming Language :: Python :: 3.11",
+          "Programming Language :: Python :: 3.12",
+          "Programming Language :: Python :: 3.13",
+          "Programming Language :: Python :: 3.14",
+          "Topic :: Software Development :: Libraries",
+          "Topic :: Software Development :: Libraries :: Python Modules"
+        ],
+        "requires_dist": [
+          "PyYAML (>=5.1)",
+          "attrs (>=22.2.0)",
+          "pathable (>=0.6.0,<0.7.0)",
+          "referencing (<0.38.0)",
+          "requests (>=2.31.0,<3.0.0) ; extra == \"requests\""
+        ],
+        "requires_python": ">=3.10,<4.0.0",
+        "project_url": [
+          "Repository, https://github.com/p1c2u/jsonschema-path"
+        ],
+        "provides_extra": [
+          "requests"
+        ]
+      }
+    },
+    {
+      "download_info": {
+        "url": "https://files.pythonhosted.org/packages/e9/23/67edce3954b280049b87dfe914fa16400c3ce2f3fa236388cf64a1bba600/lazy_object_proxy-1.13.0-cp312-cp312-win_amd64.whl",
+        "archive_info": {
+          "hash": "sha256=81437ad7883fe637620bc63a3df3e9974c9a63562e76d7e8a444fe724adccb5c",
+          "hashes": {
+            "sha256": "81437ad7883fe637620bc63a3df3e9974c9a63562e76d7e8a444fe724adccb5c"
+          }
+        }
+      },
+      "is_direct": false,
+      "is_yanked": false,
+      "requested": false,
+      "metadata": {
+        "metadata_version": "2.4",
+        "name": "lazy-object-proxy",
+        "version": "1.13.0",
+        "dynamic": [
+          "license-file"
+        ],
+        "summary": "A fast and thorough lazy object proxy.",
+        "description": "========\r\nOverview\r\n========\r\n\r\n\r\n.. list-table::\r\n    :stub-columns: 1\r\n\r\n    * - docs\r\n      - |docs|\r\n    * - tests\r\n      - |github-actions| |coveralls| |codecov|\r\n    * - package\r\n      - |version| |wheel| |supported-versions| |supported-implementations| |commits-since|\r\n.. |docs| image:: https://readthedocs.org/projects/python-lazy-object-proxy/badge/?style=flat\r\n    :target: https://readthedocs.org/projects/python-lazy-object-proxy/\r\n    :alt: Documentation Status\r\n.. |github-actions| image:: https://github.com/ionelmc/python-lazy-object-proxy/actions/workflows/github-actions.yml/badge.svg\r\n    :alt: GitHub Actions Build Status\r\n    :target: https://github.com/ionelmc/python-lazy-object-proxy/actions\r\n.. |coveralls| image:: https://coveralls.io/repos/github/ionelmc/python-lazy-object-proxy/badge.svg?branch=master\r\n    :alt: Coverage Status\r\n    :target: https://coveralls.io/github/ionelmc/python-lazy-object-proxy?branch=master\r\n.. |codecov| image:: https://codecov.io/gh/ionelmc/python-lazy-object-proxy/branch/master/graphs/badge.svg?branch=master\r\n    :alt: Coverage Status\r\n    :target: https://app.codecov.io/github/ionelmc/python-lazy-object-proxy\r\n.. |version| image:: https://img.shields.io/pypi/v/lazy-object-proxy.svg\r\n    :alt: PyPI Package latest release\r\n    :target: https://pypi.org/project/lazy-object-proxy\r\n.. |wheel| image:: https://img.shields.io/pypi/wheel/lazy-object-proxy.svg\r\n    :alt: PyPI Wheel\r\n    :target: https://pypi.org/project/lazy-object-proxy\r\n.. |supported-versions| image:: https://img.shields.io/pypi/pyversions/lazy-object-proxy.svg\r\n    :alt: Supported versions\r\n    :target: https://pypi.org/project/lazy-object-proxy\r\n.. |supported-implementations| image:: https://img.shields.io/pypi/implementation/lazy-object-proxy.svg\r\n    :alt: Supported implementations\r\n    :target: https://pypi.org/project/lazy-object-proxy\r\n.. |commits-since| image:: https://img.shields.io/github/commits-since/ionelmc/python-lazy-object-proxy/v1.13.0.svg\r\n    :alt: Commits since latest release\r\n    :target: https://github.com/ionelmc/python-lazy-object-proxy/compare/v1.13.0...master\r\n\r\n\r\nA fast and thorough lazy object proxy.\r\n\r\n* Free software: BSD 2-Clause License\r\n\r\nNote that this is based on `wrapt`_'s ObjectProxy with one big change: it calls a function the first time the proxy object is\r\nused, while `wrapt.ObjectProxy` just forwards the method calls to the target object.\r\n\r\nIn other words, you use `lazy-object-proxy` when you only have the object way later and you use `wrapt.ObjectProxy` when you\r\nwant to override few methods (by subclassing) and forward everything else to the target object.\r\n\r\nExample::\r\n\r\n    import lazy_object_proxy\r\n\r\n    def expensive_func():\r\n        from time import sleep\r\n        print('starting calculation')\r\n        # just as example for a very slow computation\r\n        sleep(2)\r\n        print('finished calculation')\r\n        # return the result of the calculation\r\n        return 10\r\n\r\n    obj = lazy_object_proxy.Proxy(expensive_func)\r\n    # function is called only when object is actually used\r\n    print(obj)  # now expensive_func is called\r\n\r\n    print(obj)  # the result without calling the expensive_func\r\n\r\nInstallation\r\n============\r\n\r\n::\r\n\r\n    pip install lazy-object-proxy\r\n\r\nYou can also install the in-development version with::\r\n\r\n    pip install https://github.com/ionelmc/python-lazy-object-proxy/archive/master.zip\r\n\r\n\r\nDocumentation\r\n=============\r\n\r\n\r\nhttps://python-lazy-object-proxy.readthedocs.io/\r\n\r\n\r\nDevelopment\r\n===========\r\n\r\nTo run all the tests run::\r\n\r\n    tox\r\n\r\nAcknowledgements\r\n================\r\n\r\nThis project is based on some code from `wrapt`_ as you can see in the git history.\r\n\r\n.. _wrapt: https://github.com/GrahamDumpleton/wrapt\r\n",
+        "description_content_type": "text/x-rst",
+        "author_email": "Ionel Cristian Mărieș <contact@ionelmc.ro>",
+        "classifier": [
+          "Development Status :: 5 - Production/Stable",
+          "Intended Audience :: Developers",
+          "Operating System :: Microsoft :: Windows",
+          "Operating System :: POSIX",
+          "Operating System :: Unix",
+          "Programming Language :: Python",
+          "Programming Language :: Python :: 3",
+          "Programming Language :: Python :: 3 :: Only",
+          "Programming Language :: Python :: 3.11",
+          "Programming Language :: Python :: 3.12",
+          "Programming Language :: Python :: 3.13",
+          "Programming Language :: Python :: 3.14",
+          "Programming Language :: Python :: 3.15",
+          "Programming Language :: Python :: Implementation :: CPython",
+          "Programming Language :: Python :: Implementation :: PyPy",
+          "Topic :: Utilities"
+        ],
+        "requires_python": ">=3.11",
+        "project_url": [
+          "Changelog, https://python-lazy-object-proxy.readthedocs.io/en/latest/changelog.html",
+          "Documentation, https://python-lazy-object-proxy.readthedocs.io/",
+          "Issue Tracker, https://github.com/ionelmc/python-lazy-object-proxy/issues",
+          "Sources, https://github.com/ionelmc/python-lazy-object-proxy"
+        ]
+      }
+    },
+    {
+      "download_info": {
+        "url": "https://files.pythonhosted.org/packages/90/c0/5467967d95378b2cfce312e09cbd0c9ab64354a0922379b734f793edd04f/openapi_schema_validator-0.9.0-py3-none-any.whl",
+        "archive_info": {
+          "hash": "sha256=faa3bbe7c3aa8ca2087ad83f709dc3b7d920283153a570c03e24ea182558aa25",
+          "hashes": {
+            "sha256": "faa3bbe7c3aa8ca2087ad83f709dc3b7d920283153a570c03e24ea182558aa25"
+          }
+        }
+      },
+      "is_direct": false,
+      "is_yanked": false,
+      "requested": false,
+      "metadata": {
+        "metadata_version": "2.4",
+        "name": "openapi-schema-validator",
+        "version": "0.9.0",
+        "summary": "OpenAPI schema validation for Python",
+        "description": "************************\nopenapi-schema-validator\n************************\n\n.. image:: https://img.shields.io/pypi/v/openapi-schema-validator.svg\n     :target: https://pypi.org/project/openapi-schema-validator/\n.. image:: https://github.com/python-openapi/openapi-schema-validator/actions/workflows/python-tests.yml/badge.svg\n     :target: https://github.com/python-openapi/openapi-schema-validator/actions\n.. image:: https://img.shields.io/codecov/c/github/python-openapi/openapi-schema-validator/master.svg?style=flat\n     :target: https://codecov.io/github/python-openapi/openapi-schema-validator?branch=master\n.. image:: https://img.shields.io/pypi/pyversions/openapi-schema-validator.svg\n     :target: https://pypi.org/project/openapi-schema-validator/\n.. image:: https://img.shields.io/pypi/format/openapi-schema-validator.svg\n     :target: https://pypi.org/project/openapi-schema-validator/\n.. image:: https://img.shields.io/pypi/status/openapi-schema-validator.svg\n     :target: https://pypi.org/project/openapi-schema-validator/\n\nAbout\n#####\n\nopenapi-schema-validator is a Python library that validates schemas against:\n\n* `OpenAPI Schema Specification v3.0 <https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#schemaObject>`__ which is an extended subset of the `JSON Schema Specification Wright Draft 00 <http://json-schema.org/>`__.\n* `OpenAPI Schema Specification v3.1 <https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#schemaObject>`__ which is an extended superset of the `JSON Schema Specification Draft 2020-12 <http://json-schema.org/>`__.\n* `OpenAPI Schema Specification v3.2 <https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.2.0.md#schemaObject>`__ using the published OAS 3.2 JSON Schema dialect resources.\n\n\nDocumentation\n#############\n\nCheck documentation to see more details about the features. All documentation is in the \"docs\" directory and online at `openapi-schema-validator.readthedocs.io <https://openapi-schema-validator.readthedocs.io>`__\n\n\nInstallation\n############\n\nRecommended way (via pip):\n\n.. code-block:: console\n\n   pip install openapi-schema-validator\n\nAlternatively you can download the code and install from the repository:\n\n.. code-block:: console\n\n   pip install \"git+https://github.com/python-openapi/openapi-schema-validator.git\"\n\n\nUsage\n#####\n\n``validate`` call signature is:\n\n.. code-block:: python\n\n   validate(\n       instance,\n       schema,\n       cls=OAS32Validator,\n       allow_remote_references=False,\n       check_schema=True,\n       enforce_properties_required=False,\n       **kwargs,\n   )\n\nThe first argument is always the value you want to validate.\nThe second argument is always the OpenAPI schema object.\nThe ``cls`` keyword argument is optional and defaults to ``OAS32Validator``.\nUse ``cls`` when you need a specific validator version/behavior.\n\n.. code-block:: python\n\n   from openapi_schema_validator import OAS30Validator\n   from openapi_schema_validator import OAS31Validator\n   from openapi_schema_validator import validate\n\n   # OpenAPI 3.0 behavior\n   validate(instance, schema, cls=OAS30Validator)\n\n   # OpenAPI 3.1 behavior\n   validate(instance, schema, cls=OAS31Validator)\n\n   # OpenAPI 3.2 behavior (default)\n   validate(instance, schema)\n\nCommon forwarded keyword arguments include ``registry`` (reference context)\nand ``format_checker`` (format validation behavior).\nBy default, ``validate`` uses a local-only empty registry to avoid implicit\nremote ``$ref`` retrieval. To resolve external references, pass an explicit\n``registry``. Set ``allow_remote_references=True`` only if you explicitly\naccept jsonschema's default remote retrieval behavior.\n\n``check_schema`` defaults to ``True`` and validates the schema before\nvalidating an instance. For trusted pre-validated schemas in hot paths, set\n``check_schema=False`` to skip schema checking.\n\nWhen ``enforce_properties_required=True`` is passed, all properties declared\nin the schema's ``properties`` object are strictly required to be present in\nthe instance (except those marked as ``writeOnly`` or ``readOnly`` where\nappropriate), regardless of the schema's ``required`` array. This is useful for\nresponse or contract testing to ensure no documented fields are missing.\n\nThe ``validate`` helper keeps an internal compiled-validator cache. You can\ncontrol cache size using the\n``OPENAPI_SCHEMA_VALIDATOR_COMPILED_VALIDATOR_CACHE_MAX_SIZE`` environment variable\n(default: ``128``).\nThe value is loaded once at first use and reused for the lifetime of the\nprocess.\n\nTo validate an OpenAPI schema:\n\n.. code-block:: python\n\n   from openapi_schema_validator import validate\n\n   # A sample schema\n   schema = {\n       \"type\": \"object\",\n       \"required\": [\n          \"name\"\n       ],\n       \"properties\": {\n           \"name\": {\n               \"type\": \"string\"\n           },\n           \"age\": {\n               \"type\": [\"integer\", \"null\"],\n               \"format\": \"int32\",\n               \"minimum\": 0,\n           },\n           \"birth-date\": {\n               \"type\": \"string\",\n               \"format\": \"date\",\n           },\n           \"address\": {\n                \"type\": 'array',\n                \"prefixItems\": [\n                    { \"type\": \"number\" },\n                    { \"type\": \"string\" },\n                    { \"enum\": [\"Street\", \"Avenue\", \"Boulevard\"] },\n                    { \"enum\": [\"NW\", \"NE\", \"SW\", \"SE\"] }\n                ],\n                \"items\": False,\n            }\n       },\n       \"additionalProperties\": False,\n   }\n\n   # If no exception is raised by validate(), the instance is valid.\n   validate({\"name\": \"John\", \"age\": 23, \"address\": [1600, \"Pennsylvania\", \"Avenue\"]}, schema)\n\n   validate({\"name\": \"John\", \"city\": \"London\"}, schema)\n\nExpected failure output:\n\n.. code-block:: text\n\n   Traceback (most recent call last):\n       ...\n   ValidationError: Additional properties are not allowed ('city' was unexpected)\n\nBy default, the latest OpenAPI schema syntax is expected.\n\nDefault dialect resolution\n--------------------------\n\nThe OpenAPI 3.1 and 3.2 base dialect URIs are registered for\n``jsonschema.validators.validator_for`` resolution.\nSchemas declaring ``\"$schema\"`` as either\n``\"https://spec.openapis.org/oas/3.1/dialect/base\"`` or\n``\"https://spec.openapis.org/oas/3.2/dialect/2025-09-17\"`` resolve\ndirectly to ``OAS31Validator`` and ``OAS32Validator`` without\nunresolved-metaschema fallback warnings.\n\n.. code-block:: python\n\n   from jsonschema.validators import validator_for\n\n   from openapi_schema_validator import OAS31Validator\n   from openapi_schema_validator import OAS32Validator\n\n   schema = {\n       \"$schema\": \"https://spec.openapis.org/oas/3.1/dialect/base\",\n       \"type\": \"object\",\n   }\n   schema32 = {\n       \"$schema\": \"https://spec.openapis.org/oas/3.2/dialect/2025-09-17\",\n       \"type\": \"object\",\n   }\n\n   assert validator_for(schema) is OAS31Validator\n   assert validator_for(schema32) is OAS32Validator\n\nBinary Data Semantics\n=====================\n\nThe handling of binary-like payloads differs between OpenAPI versions.\n\nOpenAPI 3.0\n-----------\n\nOpenAPI 3.0 keeps historical ``format: binary`` / ``format: byte`` usage on\n``type: string``.\n\n**OAS30Validator (default - compatibility behavior)**\n   - ``type: string`` accepts ``str``\n   - ``type: string, format: binary`` accepts Python ``bytes`` and strings\n   - useful when validating Python-native runtime data\n\n**OAS30StrictValidator**\n   - ``type: string`` accepts ``str`` only\n   - ``type: string, format: binary`` uses strict format validation\n   - use when you want strict, spec-oriented behavior for 3.0 schemas\n\nOpenAPI 3.1+\n------------\n\nOpenAPI 3.1+ follows JSON Schema semantics for string typing in this library.\n\n- ``type: string`` accepts ``str`` only (not ``bytes``)\n- ``format: binary`` and ``format: byte`` are not treated as built-in formats\n- for base64-in-JSON, model with ``contentEncoding: base64`` (optionally\n  ``contentMediaType``)\n- for raw binary payloads, model via media type (for example\n  ``application/octet-stream``) rather than schema string formats\n\nRegex Behavior\n==============\n\nBy default, ``pattern`` handling follows host Python regex behavior.\nFor ECMAScript-oriented regex validation and matching (via ``regress``),\ninstall the optional extra:\n\n.. code-block:: console\n\n   pip install \"openapi-schema-validator[ecma-regex]\"\n\n\nFor more details read about `Validation <https://openapi-schema-validator.readthedocs.io/en/latest/validation.html>`__.\n\n\nRelated projects\n################\n* `openapi-core <https://github.com/python-openapi/openapi-core>`__\n   Python library that adds client-side and server-side support for the OpenAPI.\n* `openapi-spec-validator <https://github.com/python-openapi/openapi-spec-validator>`__\n   Python library that validates OpenAPI Specs against the OpenAPI 2.0 (aka Swagger) and OpenAPI 3.0 specification\n\n",
+        "description_content_type": "text/x-rst",
+        "keywords": [
+          "openapi",
+          "swagger",
+          "schema"
+        ],
+        "author": "Artur Maciag",
+        "author_email": "maciag.artur@gmail.com",
+        "license": "BSD-3-Clause",
+        "classifier": [
+          "Development Status :: 4 - Beta",
+          "Intended Audience :: Developers",
+          "License :: OSI Approved :: BSD License",
+          "Operating System :: OS Independent",
+          "Programming Language :: Python :: 3",
+          "Programming Language :: Python :: 3.10",
+          "Programming Language :: Python :: 3.11",
+          "Programming Language :: Python :: 3.12",
+          "Programming Language :: Python :: 3.13",
+          "Programming Language :: Python :: 3.14",
+          "Topic :: Software Development :: Libraries",
+          "Topic :: Software Development :: Libraries :: Python Modules",
+          "Typing :: Typed"
+        ],
+        "requires_dist": [
+          "jsonschema (>=4.19.1,<5.0.0)",
+          "jsonschema-specifications (>=2024.10.1)",
+          "pydantic (>=2.0.0,<3.0.0)",
+          "pydantic-settings (>=2.0.0,<3.0.0)",
+          "referencing (>=0.37.0,<0.38.0)",
+          "regress (>=2025.10.1) ; extra == \"ecma-regex\"",
+          "rfc3339-validator"
+        ],
+        "requires_python": ">=3.10.0,<4.0.0",
+        "project_url": [
+          "Repository, https://github.com/python-openapi/openapi-schema-validator"
+        ],
+        "provides_extra": [
+          "docs",
+          "ecma-regex"
+        ]
+      }
+    },
+    {
+      "download_info": {
+        "url": "https://files.pythonhosted.org/packages/64/b4/17d4b0b2a2dc85a6df63d1157e028ed19f90d4cd97c36717afef2bc2f395/attrs-26.1.0-py3-none-any.whl",
+        "archive_info": {
+          "hash": "sha256=c647aa4a12dfbad9333ca4e71fe62ddc36f4e63b2d260a37a8b83d2f043ac309",
+          "hashes": {
+            "sha256": "c647aa4a12dfbad9333ca4e71fe62ddc36f4e63b2d260a37a8b83d2f043ac309"
+          }
+        }
+      },
+      "is_direct": false,
+      "is_yanked": false,
+      "requested": false,
+      "metadata": {
+        "metadata_version": "2.4",
+        "name": "attrs",
+        "version": "26.1.0",
+        "summary": "Classes Without Boilerplate",
+        "description": "<p align=\"center\">\n  <a href=\"https://www.attrs.org/\">\n    <img src=\"https://raw.githubusercontent.com/python-attrs/attrs/main/docs/_static/attrs_logo.svg\" width=\"35%\" alt=\"attrs\" />\n  </a>\n</p>\n\n\n*attrs* is the Python package that will bring back the **joy** of **writing classes** by relieving you from the drudgery of implementing object protocols (aka [dunder methods](https://www.attrs.org/en/latest/glossary.html#term-dunder-methods)).\nTrusted by NASA for [Mars missions since 2020](https://github.com/readme/featured/nasa-ingenuity-helicopter)!\n\nIts main goal is to help you to write **concise** and **correct** software without slowing down your code.\n\n\n## Sponsors\n\n*attrs* would not be possible without our [amazing sponsors](https://github.com/sponsors/hynek).\nEspecially those generously supporting us at the *The Organization* tier and higher:\n\n<!-- sponsor-break-begin -->\n\n<p align=\"center\">\n\n<!-- [[[cog\nimport pathlib, tomllib\n\nfor sponsor in tomllib.loads(pathlib.Path(\"pyproject.toml\").read_text())[\"tool\"][\"sponcon\"][\"sponsors\"]:\n      print(f'<a href=\"{sponsor[\"url\"]}\"><img title=\"{sponsor[\"title\"]}\" src=\"https://www.attrs.org/en/26.1.0/_static/sponsors/{sponsor[\"img\"]}\" width=\"190\" /></a>')\n]]] -->\n<a href=\"https://www.variomedia.de/\"><img title=\"Variomedia AG\" src=\"https://www.attrs.org/en/26.1.0/_static/sponsors/Variomedia.svg\" width=\"190\" /></a>\n<a href=\"https://tidelift.com/?utm_source=lifter&utm_medium=referral&utm_campaign=hynek\"><img title=\"Tidelift\" src=\"https://www.attrs.org/en/26.1.0/_static/sponsors/Tidelift.svg\" width=\"190\" /></a>\n<a href=\"https://kraken.tech/\"><img title=\"Kraken Tech\" src=\"https://www.attrs.org/en/26.1.0/_static/sponsors/Kraken.svg\" width=\"190\" /></a>\n<a href=\"https://privacy-solutions.org/\"><img title=\"Privacy Solutions\" src=\"https://www.attrs.org/en/26.1.0/_static/sponsors/Privacy-Solutions.svg\" width=\"190\" /></a>\n<a href=\"https://filepreviews.io/\"><img title=\"FilePreviews\" src=\"https://www.attrs.org/en/26.1.0/_static/sponsors/FilePreviews.svg\" width=\"190\" /></a>\n<a href=\"https://www.testmuai.com/?utm_medium=sponsor&utm_source=structlog\"><img title=\"TestMu AI\" src=\"https://www.attrs.org/en/26.1.0/_static/sponsors/TestMu-AI.svg\" width=\"190\" /></a>\n<a href=\"https://polar.sh/\"><img title=\"Polar\" src=\"https://www.attrs.org/en/26.1.0/_static/sponsors/Polar.svg\" width=\"190\" /></a>\n<!-- [[[end]]] -->\n\n</p>\n\n<!-- sponsor-break-end -->\n\n<p align=\"center\">\n   <strong>Please consider <a href=\"https://github.com/sponsors/hynek\">joining them</a> to help make <em>attrs</em>’s maintenance more sustainable!</strong>\n</p>\n\n<!-- teaser-end -->\n\n## Example\n\n*attrs* gives you a class decorator and a way to declaratively define the attributes on that class:\n\n<!-- code-begin -->\n\n```pycon\n>>> from attrs import asdict, define, make_class, Factory\n\n>>> @define\n... class SomeClass:\n...     a_number: int = 42\n...     list_of_numbers: list[int] = Factory(list)\n...\n...     def hard_math(self, another_number):\n...         return self.a_number + sum(self.list_of_numbers) * another_number\n\n\n>>> sc = SomeClass(1, [1, 2, 3])\n>>> sc\nSomeClass(a_number=1, list_of_numbers=[1, 2, 3])\n\n>>> sc.hard_math(3)\n19\n>>> sc == SomeClass(1, [1, 2, 3])\nTrue\n>>> sc != SomeClass(2, [3, 2, 1])\nTrue\n\n>>> asdict(sc)\n{'a_number': 1, 'list_of_numbers': [1, 2, 3]}\n\n>>> SomeClass()\nSomeClass(a_number=42, list_of_numbers=[])\n\n>>> C = make_class(\"C\", [\"a\", \"b\"])\n>>> C(\"foo\", \"bar\")\nC(a='foo', b='bar')\n```\n\nAfter *declaring* your attributes, *attrs* gives you:\n\n- a concise and explicit overview of the class's attributes,\n- a nice human-readable `__repr__`,\n- equality-checking methods,\n- an initializer,\n- and much more,\n\n*without* writing dull boilerplate code again and again and *without* runtime performance penalties.\n\n---\n\nThis example uses *attrs*'s modern APIs that have been introduced in version 20.1.0, and the *attrs* package import name that has been added in version 21.3.0.\nThe classic APIs (`@attr.s`, `attr.ib`, plus their serious-business aliases) and the `attr` package import name will remain **indefinitely**.\n\nCheck out [*On The Core API Names*](https://www.attrs.org/en/latest/names.html) for an in-depth explanation!\n\n\n### Hate Type Annotations!?\n\nNo problem!\nTypes are entirely **optional** with *attrs*.\nSimply assign `attrs.field()` to the attributes instead of annotating them with types:\n\n```python\nfrom attrs import define, field\n\n@define\nclass SomeClass:\n    a_number = field(default=42)\n    list_of_numbers = field(factory=list)\n```\n\n\n## Data Classes\n\nOn the tin, *attrs* might remind you of `dataclasses` (and indeed, `dataclasses` [are a descendant](https://hynek.me/articles/import-attrs/) of *attrs*).\nIn practice it does a lot more and is more flexible.\nFor instance, it allows you to define [special handling of NumPy arrays for equality checks](https://www.attrs.org/en/stable/comparison.html#customization), allows more ways to [plug into the initialization process](https://www.attrs.org/en/stable/init.html#hooking-yourself-into-initialization), has a replacement for `__init_subclass__`, and allows for stepping through the generated methods using a debugger.\n\nFor more details, please refer to our [comparison page](https://www.attrs.org/en/stable/why.html#data-classes), but generally speaking, we are more likely to commit crimes against nature to make things work that one would expect to work, but that are quite complicated in practice.\n\n\n## Project Information\n\n- [**Changelog**](https://www.attrs.org/en/stable/changelog.html)\n- [**Documentation**](https://www.attrs.org/)\n- [**PyPI**](https://pypi.org/project/attrs/)\n- [**Source Code**](https://github.com/python-attrs/attrs)\n- [**Contributing**](https://github.com/python-attrs/attrs/blob/main/.github/CONTRIBUTING.md)\n- [**Third-party Extensions**](https://github.com/python-attrs/attrs/wiki/Extensions-to-attrs)\n- **Get Help**: use the `python-attrs` tag on [Stack Overflow](https://stackoverflow.com/questions/tagged/python-attrs)\n\n\n### *attrs* for Enterprise\n\nAvailable as part of the [Tidelift Subscription](https://tidelift.com/?utm_source=lifter&utm_medium=referral&utm_campaign=hynek).\n\nThe maintainers of *attrs* and thousands of other packages are working with Tidelift to deliver commercial support and maintenance for the open source packages you use to build your applications.\nSave time, reduce risk, and improve code health, while paying the maintainers of the exact packages you use.\n\n## Release Information\n\n### Backwards-incompatible Changes\n\n- Field aliases are now resolved *before* calling `field_transformer`, so transformers receive fully populated `Attribute` objects with usable `alias` values instead of `None`.\n  The new `Attribute.alias_is_default` flag indicates whether the alias was auto-generated (`True`) or explicitly set by the user (`False`).\n  [#1509](https://github.com/python-attrs/attrs/issues/1509)\n\n\n### Changes\n\n- Fix type annotations for `attrs.validators.optional()`, so it no longer rejects tuples with more than one validator.\n  [#1496](https://github.com/python-attrs/attrs/issues/1496)\n- The `attrs.validators.disabled()` contextmanager can now be nested.\n  [#1513](https://github.com/python-attrs/attrs/issues/1513)\n- Frozen classes can set `on_setattr=attrs.setters.NO_OP` in addition to `None`.\n  [#1515](https://github.com/python-attrs/attrs/issues/1515)\n- It's now possible to pass *attrs* **instances** in addition to *attrs* **classes** to `attrs.fields()`.\n  [#1529](https://github.com/python-attrs/attrs/issues/1529)\n\n\n\n---\n\n[Full changelog →](https://www.attrs.org/en/stable/changelog.html)\n",
+        "description_content_type": "text/markdown",
+        "keywords": [
+          "attribute",
+          "boilerplate",
+          "class"
+        ],
+        "author_email": "Hynek Schlawack <hs@ox.cx>",
+        "classifier": [
+          "Development Status :: 5 - Production/Stable",
+          "Programming Language :: Python :: 3.9",
+          "Programming Language :: Python :: 3.10",
+          "Programming Language :: Python :: 3.11",
+          "Programming Language :: Python :: 3.12",
+          "Programming Language :: Python :: 3.13",
+          "Programming Language :: Python :: 3.14",
+          "Programming Language :: Python :: Implementation :: CPython",
+          "Programming Language :: Python :: Implementation :: PyPy",
+          "Typing :: Typed"
+        ],
+        "requires_python": ">=3.9",
+        "project_url": [
+          "Documentation, https://www.attrs.org/",
+          "Changelog, https://www.attrs.org/en/stable/changelog.html",
+          "GitHub, https://github.com/python-attrs/attrs",
+          "Funding, https://github.com/sponsors/hynek",
+          "Tidelift, https://tidelift.com/subscription/pkg/pypi-attrs?utm_source=pypi-attrs&utm_medium=pypi"
+        ]
+      }
+    },
+    {
+      "download_info": {
+        "url": "https://files.pythonhosted.org/packages/41/45/1a4ed80516f02155c51f51e8cedb3c1902296743db0bbc66608a0db2814f/jsonschema_specifications-2025.9.1-py3-none-any.whl",
+        "archive_info": {
+          "hash": "sha256=98802fee3a11ee76ecaca44429fda8a41bff98b00a0f2838151b113f210cc6fe",
+          "hashes": {
+            "sha256": "98802fee3a11ee76ecaca44429fda8a41bff98b00a0f2838151b113f210cc6fe"
+          }
+        }
+      },
+      "is_direct": false,
+      "is_yanked": false,
+      "requested": false,
+      "metadata": {
+        "metadata_version": "2.4",
+        "name": "jsonschema-specifications",
+        "version": "2025.9.1",
+        "summary": "The JSON Schema meta-schemas and vocabularies, exposed as a Registry",
+        "description": "=============================\n``jsonschema-specifications``\n=============================\n\n|PyPI| |Pythons| |CI| |ReadTheDocs|\n\nJSON support files from the `JSON Schema Specifications <https://json-schema.org/specification.html>`_ (metaschemas, vocabularies, etc.), packaged for runtime access from Python as a `referencing-based Schema Registry <https://referencing.readthedocs.io/en/stable/api/#referencing.Registry>`_.\n\n.. |PyPI| image:: https://img.shields.io/pypi/v/jsonschema-specifications.svg\n  :alt: PyPI version\n  :target: https://pypi.org/project/jsonschema-specifications/\n\n.. |Pythons| image:: https://img.shields.io/pypi/pyversions/jsonschema-specifications.svg\n  :alt: Supported Python versions\n  :target: https://pypi.org/project/jsonschema-specifications/\n\n.. |CI| image:: https://github.com/python-jsonschema/jsonschema-specifications/workflows/CI/badge.svg\n  :alt: Build status\n  :target: https://github.com/python-jsonschema/jsonschema-specifications/actions?query=workflow%3ACI\n\n.. |ReadTheDocs| image:: https://readthedocs.org/projects/jsonschema-specifications/badge/?version=stable&style=flat\n  :alt: ReadTheDocs status\n  :target: https://jsonschema-specifications.readthedocs.io/en/stable/\n",
+        "description_content_type": "text/x-rst",
+        "keywords": [
+          "data validation",
+          "json",
+          "json schema",
+          "jsonschema",
+          "validation"
+        ],
+        "author_email": "Julian Berman <Julian+jsonschema-specifications@GrayVines.com>",
+        "classifier": [
+          "Development Status :: 5 - Production/Stable",
+          "Intended Audience :: Developers",
+          "Operating System :: OS Independent",
+          "Programming Language :: Python",
+          "Programming Language :: Python :: 3.9",
+          "Programming Language :: Python :: 3.10",
+          "Programming Language :: Python :: 3.11",
+          "Programming Language :: Python :: 3.12",
+          "Programming Language :: Python :: 3.13",
+          "Programming Language :: Python :: Implementation :: CPython",
+          "Programming Language :: Python :: Implementation :: PyPy",
+          "Topic :: File Formats :: JSON",
+          "Topic :: File Formats :: JSON :: JSON Schema"
+        ],
+        "requires_dist": [
+          "referencing>=0.31.0"
+        ],
+        "requires_python": ">=3.9",
+        "project_url": [
+          "Documentation, https://jsonschema-specifications.readthedocs.io/",
+          "Homepage, https://github.com/python-jsonschema/jsonschema-specifications",
+          "Issues, https://github.com/python-jsonschema/jsonschema-specifications/issues/",
+          "Funding, https://github.com/sponsors/Julian",
+          "Tidelift, https://tidelift.com/subscription/pkg/pypi-jsonschema-specifications?utm_source=pypi-jsonschema-specifications&utm_medium=referral&utm_campaign=pypi-link",
+          "Source, https://github.com/python-jsonschema/jsonschema-specifications"
+        ]
+      }
+    },
+    {
+      "download_info": {
+        "url": "https://files.pythonhosted.org/packages/a2/e8/6d75ffd9784bce2e93d1ae4415649427e39a53bb172d4672b2b59c6f0a7b/pathable-0.6.0-py3-none-any.whl",
+        "archive_info": {
+          "hash": "sha256=82c4ca6c98c502ad12e0d4e9779b6210afee93c38990988c8c5d1b49bdcdf566",
+          "hashes": {
+            "sha256": "82c4ca6c98c502ad12e0d4e9779b6210afee93c38990988c8c5d1b49bdcdf566"
+          }
+        }
+      },
+      "is_direct": false,
+      "is_yanked": false,
+      "requested": false,
+      "metadata": {
+        "metadata_version": "2.4",
+        "name": "pathable",
+        "version": "0.6.0",
+        "summary": "Object-oriented paths",
+        "description": "# pathable\n\n[![Package version](https://img.shields.io/pypi/v/pathable.svg)](https://pypi.org/project/pathable/)\n[![Python versions](https://img.shields.io/pypi/pyversions/pathable.svg)](https://pypi.org/project/pathable/)\n[![License](https://img.shields.io/pypi/l/pathable.svg)](https://pypi.org/project/pathable/)\n\n## About\n\nPathable provides a small set of \"path\" objects for traversing hierarchical data (mappings, lists, and other subscriptable trees) using a familiar path-like syntax.\n\nIt’s especially handy when you want to:\n\n* express deep lookups as a single object (and pass it around)\n* build paths incrementally (`p / \"a\" / 0 / \"b\"`)\n* safely probe (`exists()`, `get(...)`) or strictly require segments (`//`)\n\n## Key features\n\n* Intuitive path-based navigation for nested data (e.g., dicts/lists)\n* Pluggable accessor layer for custom backends\n* Pythonic, chainable API for concise and readable code\n* Per-instance (bounded LRU) cached lookup accessor for repeated reads of the same tree\n\n## Quickstart\n\n```python\nfrom pathable import LookupPath\n\ndata = {\n    \"parts\": {\n        \"part1\": {\"name\": \"Part One\"},\n        \"part2\": {\"name\": \"Part Two\"},\n    }\n}\n\nroot = LookupPath.from_lookup(data)\n\nname = (root / \"parts\" / \"part2\" / \"name\").read_value()\nassert name == \"Part Two\"\n```\n\n## Usage\n\n```python\nfrom pathable import LookupPath\n\ndata = {\n    \"parts\": {\n        \"part1\": {\"name\": \"Part One\"},\n        \"part2\": {\"name\": \"Part Two\"},\n    }\n}\n\np = LookupPath.from_lookup(data)\n\n# Concatenate path segments with /\nparts = p / \"parts\"\n\n# Check membership (mapping keys or list indexes)\nassert \"part2\" in parts\n\n# Read a value\nassert (parts / \"part2\" / \"name\").read_value() == \"Part Two\"\n\n# Iterate children as paths\nfor child in parts:\n    print(child, child.read_value())\n\n# Work with keys/items\nprint(list(parts.keys()))\nprint({k: v.read_value() for k, v in parts.items()})\n\n# Safe access\nprint(parts.get(\"missing\", default=None))\n\n# Strict access (raises KeyError if missing)\nmust_exist = parts // \"part2\"\n\n# \"Open\" yields the current value as a context manager\nwith parts.open() as parts_value:\n    assert isinstance(parts_value, dict)\n\n# Optional metadata\nprint(parts.stat())\n```\n\n## Filesystem example\n\nPathable can also traverse the filesystem via an accessor.\n\n```python\nfrom pathlib import Path\n\nfrom pathable import FilesystemPath\n\nroot_dir = Path(\".\")\np = FilesystemPath.from_path(root_dir)\n\nreadme = p / \"README.md\"\nif readme.exists():\n    content = readme.read_value()  # bytes\n    print(content[:100])\n```\n\n## Core concepts\n\n* `BasePath` is a pure path (segments + separator) with `/` joining.\n* `AccessorPath` is a `BasePath` bound to a `NodeAccessor`, enabling `read_value()`, `exists()`, `keys()`, iteration, etc.\n* `FilesystemPath` is an `AccessorPath` specialized for filesystem objects.\n* `LookupPath` is an `AccessorPath` specialized for mapping/list lookups.\n\nNotes on parsing:\n\n* A segment like `\"a/b\"` is split into parts using the separator.\n* `None` segments are ignored.\n* `\".\"` segments are ignored (relative no-op).\n* Operations like `relative_to()` and `is_relative_to()` also respect the instance separator.\n\nEquality and ordering:\n\n* Two `BasePath` instances are equal if their `parts` are equal. The separator is presentation only — `BasePath(\"a\", separator=\"/\") == BasePath(\"a\", separator=\".\")`.\n* Two `AccessorPath` instances are equal if they have equal `parts` *and* their accessors compare equal under the accessor's own `__eq__`. A plain `BasePath` is never equal to an `AccessorPath`.\n* Path parts are type-sensitive (`0` is not equal to `\"0\"`).\n* Ordering is address-based: separator is not part of the order, and it remains deterministic across mixed part types. For `AccessorPath`, different bindings with the same `parts` may compare ordering-equivalent while remaining unequal.\n\nIdentity and lifecycle:\n\n* Build one accessor per resource and reuse it for every path you derive. `LookupPath.from_lookup(data)` constructs a fresh accessor on each call, which is convenient for one-off use but defeats the cache when called repeatedly over the same data:\n\n```python\nfrom pathable import LookupPath\nfrom pathable.accessors import LookupAccessor\n\n# Construct the accessor once, reuse it.\naccessor = LookupAccessor(data)\nroot = LookupPath(accessor)\n\n# Every path derived from `accessor` shares its cache.\na = root / \"parts\" / \"part1\"\nb = root / \"parts\" / \"part1\"\nassert a == b\n```\n\n* `path.is_same_binding(other)` is a stricter version of `==` that additionally requires both paths to share the *same accessor instance* (object identity), not just an `==`-equal one. Use it when you need to verify cache attribution or detect accidental accessor swaps.\n\nLookup caching:\n\n* `LookupPath` uses a per-instance LRU cache (default maxsize: 128) on its accessor.\n* You can control it via `path.accessor.clear_cache()`, `path.accessor.disable_cache()`, and `path.accessor.enable_cache(maxsize=...)`.\n* `path.accessor.node` is immutable; to point at a different tree, create a new `LookupPath`/accessor.\n\n## Installation\n\nRecommended way (via pip):\n\n``` console\npip install pathable\n```\n\nAlternatively you can download the code and install from the repository:\n\n``` console\npip install -e git+https://github.com/p1c2u/pathable.git#egg=pathable\n```\n\n## Benchmarks\n\nBenchmarks live in `tests/benchmarks/` and produce JSON reports.\n\nLocal run (recommended as modules):\n\n```console\npoetry run python -m tests.benchmarks.bench_parse --output reports/bench-parse.json\npoetry run python -m tests.benchmarks.bench_lookup --output reports/bench-lookup.json\n```\n\nQuick sanity run:\n\n```console\npoetry run python -m tests.benchmarks.bench_parse --quick --output reports/bench-parse.quick.json\npoetry run python -m tests.benchmarks.bench_lookup --quick --output reports/bench-lookup.quick.json\n```\n\nCompare two results (fails if candidate is >20% slower in any scenario):\n\n```console\npoetry run python -m tests.benchmarks.compare_results \\\n    --baseline reports/bench-before.json \\\n    --candidate reports/bench-after.json \\\n    --tolerance 0.20\n```\n\nCI (on-demand):\n\n- GitHub Actions workflow `Benchmarks` runs via `workflow_dispatch` and uploads the JSON artifacts.\n\n\n",
+        "description_content_type": "text/markdown",
+        "keywords": [
+          "dict",
+          "dictionary",
+          "list",
+          "lookup",
+          "path",
+          "pathable"
+        ],
+        "author": "Artur Maciag",
+        "author_email": "maciag.artur@gmail.com",
+        "license": "Apache-2.0",
+        "classifier": [
+          "Development Status :: 4 - Beta",
+          "Intended Audience :: Developers",
+          "License :: OSI Approved :: Apache Software License",
+          "Operating System :: OS Independent",
+          "Programming Language :: Python :: 3",
+          "Programming Language :: Python :: 3.10",
+          "Programming Language :: Python :: 3.11",
+          "Programming Language :: Python :: 3.12",
+          "Programming Language :: Python :: 3.13",
+          "Programming Language :: Python :: 3.14",
+          "Topic :: Software Development :: Libraries",
+          "Topic :: Software Development :: Libraries :: Python Modules"
+        ],
+        "requires_python": ">=3.10,<4.0",
+        "project_url": [
+          "Repository, https://github.com/p1c2u/pathable"
+        ]
+      }
+    },
+    {
+      "download_info": {
+        "url": "https://files.pythonhosted.org/packages/86/bf/899e81e4cce32febab4fb42bb97dcdf66bc135272882d1987881a4b519e9/pyyaml-6.0.3-cp312-cp312-win_amd64.whl",
+        "archive_info": {
+          "hash": "sha256=5fcd34e47f6e0b794d17de1b4ff496c00986e1c83f7ab2fb8fcfe9616ff7477b",
+          "hashes": {
+            "sha256": "5fcd34e47f6e0b794d17de1b4ff496c00986e1c83f7ab2fb8fcfe9616ff7477b"
+          }
+        }
+      },
+      "is_direct": false,
+      "is_yanked": false,
+      "requested": false,
+      "metadata": {
+        "metadata_version": "2.4",
+        "name": "PyYAML",
+        "version": "6.0.3",
+        "dynamic": [
+          "author",
+          "author-email",
+          "classifier",
+          "description",
+          "download-url",
+          "home-page",
+          "license",
+          "license-file",
+          "platform",
+          "project-url",
+          "requires-python",
+          "summary"
+        ],
+        "platform": [
+          "Any"
+        ],
+        "summary": "YAML parser and emitter for Python",
+        "description": "YAML is a data serialization format designed for human readability\r\nand interaction with scripting languages.  PyYAML is a YAML parser\r\nand emitter for Python.\r\n\r\nPyYAML features a complete YAML 1.1 parser, Unicode support, pickle\r\nsupport, capable extension API, and sensible error messages.  PyYAML\r\nsupports standard YAML tags and provides Python-specific tags that\r\nallow to represent an arbitrary Python object.\r\n\r\nPyYAML is applicable for a broad range of tasks from complex\r\nconfiguration files to object serialization and persistence.\r\n",
+        "home_page": "https://pyyaml.org/",
+        "download_url": "https://pypi.org/project/PyYAML/",
+        "author": "Kirill Simonov",
+        "author_email": "xi@resolvent.net",
+        "license": "MIT",
+        "classifier": [
+          "Development Status :: 5 - Production/Stable",
+          "Intended Audience :: Developers",
+          "License :: OSI Approved :: MIT License",
+          "Operating System :: OS Independent",
+          "Programming Language :: Cython",
+          "Programming Language :: Python",
+          "Programming Language :: Python :: 3",
+          "Programming Language :: Python :: 3.8",
+          "Programming Language :: Python :: 3.9",
+          "Programming Language :: Python :: 3.10",
+          "Programming Language :: Python :: 3.11",
+          "Programming Language :: Python :: 3.12",
+          "Programming Language :: Python :: 3.13",
+          "Programming Language :: Python :: 3.14",
+          "Programming Language :: Python :: Implementation :: CPython",
+          "Programming Language :: Python :: Implementation :: PyPy",
+          "Topic :: Software Development :: Libraries :: Python Modules",
+          "Topic :: Text Processing :: Markup"
+        ],
+        "requires_python": ">=3.8",
+        "project_url": [
+          "Bug Tracker, https://github.com/yaml/pyyaml/issues",
+          "CI, https://github.com/yaml/pyyaml/actions",
+          "Documentation, https://pyyaml.org/wiki/PyYAMLDocumentation",
+          "Mailing lists, http://lists.sourceforge.net/lists/listinfo/yaml-core",
+          "Source Code, https://github.com/yaml/pyyaml"
+        ]
+      }
+    },
+    {
+      "download_info": {
+        "url": "https://files.pythonhosted.org/packages/2c/58/ca301544e1fa93ed4f80d724bf5b194f6e4b945841c5bfd555878eea9fcb/referencing-0.37.0-py3-none-any.whl",
+        "archive_info": {
+          "hash": "sha256=381329a9f99628c9069361716891d34ad94af76e461dcb0335825aecc7692231",
+          "hashes": {
+            "sha256": "381329a9f99628c9069361716891d34ad94af76e461dcb0335825aecc7692231"
+          }
+        }
+      },
+      "is_direct": false,
+      "is_yanked": false,
+      "requested": false,
+      "metadata": {
+        "metadata_version": "2.4",
+        "name": "referencing",
+        "version": "0.37.0",
+        "summary": "JSON Referencing + Python",
+        "description": "===============\n``referencing``\n===============\n\n|PyPI| |Pythons| |CI| |ReadTheDocs| |pre-commit|\n\n.. |PyPI| image:: https://img.shields.io/pypi/v/referencing.svg\n  :alt: PyPI version\n  :target: https://pypi.org/project/referencing/\n\n.. |Pythons| image:: https://img.shields.io/pypi/pyversions/referencing.svg\n  :alt: Supported Python versions\n  :target: https://pypi.org/project/referencing/\n\n.. |CI| image:: https://github.com/python-jsonschema/referencing/workflows/CI/badge.svg\n  :alt: Build status\n  :target: https://github.com/python-jsonschema/referencing/actions?query=workflow%3ACI\n\n.. |ReadTheDocs| image:: https://readthedocs.org/projects/referencing/badge/?version=stable&style=flat\n   :alt: ReadTheDocs status\n   :target: https://referencing.readthedocs.io/en/stable/\n\n.. |pre-commit| image:: https://results.pre-commit.ci/badge/github/python-jsonschema/referencing/main.svg\n  :alt: pre-commit.ci status\n  :target: https://results.pre-commit.ci/latest/github/python-jsonschema/referencing/main\n\n\nAn implementation-agnostic implementation of JSON reference resolution.\n\nSee `the documentation <https://referencing.readthedocs.io/>`_ for more details.\n",
+        "description_content_type": "text/x-rst",
+        "keywords": [
+          "asyncapi",
+          "json",
+          "jsonschema",
+          "openapi",
+          "referencing"
+        ],
+        "author_email": "Julian Berman <Julian+referencing@GrayVines.com>",
+        "classifier": [
+          "Development Status :: 3 - Alpha",
+          "Intended Audience :: Developers",
+          "Operating System :: OS Independent",
+          "Programming Language :: Python",
+          "Programming Language :: Python :: 3.10",
+          "Programming Language :: Python :: 3.11",
+          "Programming Language :: Python :: 3.12",
+          "Programming Language :: Python :: 3.13",
+          "Programming Language :: Python :: 3.14",
+          "Programming Language :: Python :: Implementation :: CPython",
+          "Programming Language :: Python :: Implementation :: PyPy",
+          "Topic :: File Formats :: JSON",
+          "Topic :: File Formats :: JSON :: JSON Schema"
+        ],
+        "requires_dist": [
+          "attrs>=22.2.0",
+          "rpds-py>=0.7.0",
+          "typing-extensions>=4.4.0; python_version < '3.13'"
+        ],
+        "requires_python": ">=3.10",
+        "project_url": [
+          "Documentation, https://referencing.readthedocs.io/",
+          "Homepage, https://github.com/python-jsonschema/referencing",
+          "Issues, https://github.com/python-jsonschema/referencing/issues/",
+          "Funding, https://github.com/sponsors/Julian",
+          "Tidelift, https://tidelift.com/subscription/pkg/pypi-referencing?utm_source=pypi-referencing&utm_medium=referral&utm_campaign=pypi-link",
+          "Changelog, https://referencing.readthedocs.io/en/stable/changes/",
+          "Source, https://github.com/python-jsonschema/referencing"
+        ]
+      }
+    },
+    {
+      "download_info": {
+        "url": "https://files.pythonhosted.org/packages/1c/84/1700cc748d0eaa747486e4e82882d2575224e6e9a3148df583058850c629/rpds_py-2026.9.1-cp312-cp312-win_amd64.whl",
+        "archive_info": {
+          "hash": "sha256=5ce8943f79c2210f7abcc28e86367b03b28d95027fd01c46d2472373ae70c86f",
+          "hashes": {
+            "sha256": "5ce8943f79c2210f7abcc28e86367b03b28d95027fd01c46d2472373ae70c86f"
+          }
+        }
+      },
+      "is_direct": false,
+      "is_yanked": false,
+      "requested": false,
+      "metadata": {
+        "metadata_version": "2.4",
+        "name": "rpds-py",
+        "version": "2026.9.1",
+        "summary": "Python bindings to Rust's persistent data structures (rpds)",
+        "description": "===========\r\n``rpds.py``\r\n===========\r\n\r\n|PyPI| |Pythons| |CI|\r\n\r\n.. |PyPI| image:: https://img.shields.io/pypi/v/rpds-py.svg\r\n  :alt: PyPI version\r\n  :target: https://pypi.org/project/rpds-py/\r\n\r\n.. |Pythons| image:: https://img.shields.io/pypi/pyversions/rpds-py.svg\r\n  :alt: Supported Python versions\r\n  :target: https://pypi.org/project/rpds-py/\r\n\r\n.. |CI| image:: https://github.com/crate-py/rpds/workflows/CI/badge.svg\r\n  :alt: Build status\r\n  :target: https://github.com/crate-py/rpds/actions?query=workflow%3ACI\r\n\r\n.. |ReadTheDocs| image:: https://readthedocs.org/projects/referencing/badge/?version=stable&style=flat\r\n   :alt: ReadTheDocs status\r\n   :target: https://referencing.readthedocs.io/en/stable/\r\n\r\n\r\nPython bindings to the `Rust rpds crate <https://docs.rs/rpds/>`_ for persistent data structures.\r\n\r\nWhat's here is quite minimal (in transparency, it was written initially to support replacing ``pyrsistent`` in the `referencing library <https://github.com/python-jsonschema/referencing>`_).\r\nIf you see something missing (which is very likely), a PR is definitely welcome to add it.\r\n\r\nInstallation\r\n------------\r\n\r\nThe distribution on PyPI is named ``rpds.py`` (equivalently ``rpds-py``), and thus can be installed via e.g.:\r\n\r\n.. code:: sh\r\n\r\n    $ pip install rpds-py\r\n\r\nNote that if you install ``rpds-py`` from source, you will need a Rust toolchain installed, as it is a build-time dependency.\r\nAn example of how to do so in a ``Dockerfile`` can be found `here <https://github.com/bowtie-json-schema/bowtie/blob/e77fd93598cb6e7dc1b8b1f53c00e5aa410c201a/implementations/python-jsonschema/Dockerfile#L1-L8>`_.\r\n\r\nIf you believe you are on a common platform which should have wheels built (i.e. and not need to compile from source), feel free to file an issue or pull request modifying the GitHub action used here to build wheels via ``maturin``.\r\n\r\nUsage\r\n-----\r\n\r\nMethods in general are named similarly to their ``rpds`` counterparts (rather than ``pyrsistent``\\ 's conventions, though probably a full drop-in ``pyrsistent``\\ -compatible wrapper module is a good addition at some point).\r\n\r\n.. code:: python\r\n\r\n    >>> from rpds import HashTrieMap, HashTrieSet, List\r\n\r\n    >>> m = HashTrieMap({\"foo\": \"bar\", \"baz\": \"quux\"})\r\n    >>> m.insert(\"spam\", 37) == HashTrieMap({\"foo\": \"bar\", \"baz\": \"quux\", \"spam\": 37})\r\n    True\r\n    >>> m.remove(\"foo\") == HashTrieMap({\"baz\": \"quux\"})\r\n    True\r\n\r\n    >>> s = HashTrieSet({\"foo\", \"bar\", \"baz\", \"quux\"})\r\n    >>> s.insert(\"spam\") == HashTrieSet({\"foo\", \"bar\", \"baz\", \"quux\", \"spam\"})\r\n    True\r\n    >>> s.remove(\"foo\") == HashTrieSet({\"bar\", \"baz\", \"quux\"})\r\n    True\r\n\r\n    >>> L = List([1, 3, 5])\r\n    >>> L.push_front(-1) == List([-1, 1, 3, 5])\r\n    True\r\n    >>> L.rest == List([3, 5])\r\n    True\r\n\n",
+        "description_content_type": "text/x-rst; charset=UTF-8",
+        "keywords": [
+          "data structures",
+          "rust",
+          "persistent"
+        ],
+        "author_email": "Julian Berman <Julian+rpds@GrayVines.com>",
+        "classifier": [
+          "Development Status :: 3 - Alpha",
+          "Intended Audience :: Developers",
+          "Operating System :: OS Independent",
+          "Programming Language :: Rust",
+          "Programming Language :: Python :: 3.11",
+          "Programming Language :: Python :: 3.12",
+          "Programming Language :: Python :: 3.13",
+          "Programming Language :: Python :: 3.14",
+          "Programming Language :: Python :: 3.15",
+          "Programming Language :: Python :: 3",
+          "Programming Language :: Python :: Implementation :: CPython",
+          "Programming Language :: Python :: Implementation :: PyPy"
+        ],
+        "requires_python": ">=3.11",
+        "project_url": [
+          "Documentation, https://rpds.readthedocs.io/",
+          "Funding, https://github.com/sponsors/Julian",
+          "Homepage, https://github.com/crate-py/rpds",
+          "Issues, https://github.com/crate-py/rpds/issues/",
+          "Source, https://github.com/crate-py/rpds",
+          "Tidelift, https://tidelift.com/subscription/pkg/pypi-rpds-py?utm_source=pypi-rpds-py&utm_medium=referral&utm_campaign=pypi-link",
+          "Upstream, https://github.com/orium/rpds"
+        ]
+      }
+    },
+    {
+      "download_info": {
+        "url": "https://files.pythonhosted.org/packages/7b/44/4e421b96b67b2daff264473f7465db72fbdf36a07e05494f50300cc7b0c6/rfc3339_validator-0.1.4-py2.py3-none-any.whl",
+        "archive_info": {
+          "hash": "sha256=24f6ec1eda14ef823da9e36ec7113124b39c04d50a4d3d3a3c2859577e7791fa",
+          "hashes": {
+            "sha256": "24f6ec1eda14ef823da9e36ec7113124b39c04d50a4d3d3a3c2859577e7791fa"
+          }
+        }
+      },
+      "is_direct": false,
+      "is_yanked": false,
+      "requested": false,
+      "metadata": {
+        "metadata_version": "2.1",
+        "name": "rfc3339-validator",
+        "version": "0.1.4",
+        "platform": [
+          "UNKNOWN"
+        ],
+        "summary": "A pure python RFC3339 validator",
+        "description": "# rfc3339-validator\n\nA pure python RFC3339 validator\n\n\n[![image](https://img.shields.io/pypi/v/rfc3339_validator.svg)](https://pypi.python.org/pypi/rfc3339_validator)\n[![Build Status](https://travis-ci.org/naimetti/rfc3339-validator.svg?branch=master)](https://travis-ci.org/naimetti/rfc3339-validator)\n\n# Install\n\n```shell script\npip install rfc3339-validator\n```\n\n# Usage\n\n```python\nfrom rfc3339_validator import validate_rfc3339\n\nvalidate_rfc3339('1424-45-93T15:32:12.9023368Z')\n>>> False\n\nvalidate_rfc3339('2001-10-23T15:32:12.9023368Z')\n>>> True\n```\n\n\n  - Free software: MIT license\n\n\n",
+        "description_content_type": "text/markdown",
+        "keywords": [
+          "rfc3339",
+          "validator"
+        ],
+        "home_page": "https://github.com/naimetti/rfc3339-validator",
+        "author": "Nicolas Aimetti",
+        "author_email": "naimetti@yahoo.com.ar",
+        "license": "MIT license",
+        "classifier": [
+          "Development Status :: 2 - Pre-Alpha",
+          "Intended Audience :: Developers",
+          "License :: OSI Approved :: MIT License",
+          "Natural Language :: English",
+          "Programming Language :: Python :: 2",
+          "Programming Language :: Python :: 2.7",
+          "Programming Language :: Python :: 3",
+          "Programming Language :: Python :: 3.5",
+          "Programming Language :: Python :: 3.6",
+          "Programming Language :: Python :: 3.7",
+          "Programming Language :: Python :: 3.8"
+        ],
+        "requires_dist": [
+          "six"
+        ],
+        "requires_python": ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
+      }
+    },
+    {
+      "download_info": {
+        "url": "https://files.pythonhosted.org/packages/b7/ce/149a00dd41f10bc29e5921b496af8b574d8413afcd5e30dfa0ed46c2cc5e/six-1.17.0-py2.py3-none-any.whl",
+        "archive_info": {
+          "hash": "sha256=4721f391ed90541fddacab5acf947aa0d3dc7d27b2e1e8eda2be8970586c3274",
+          "hashes": {
+            "sha256": "4721f391ed90541fddacab5acf947aa0d3dc7d27b2e1e8eda2be8970586c3274"
+          }
+        }
+      },
+      "is_direct": false,
+      "is_yanked": false,
+      "requested": false,
+      "metadata": {
+        "metadata_version": "2.1",
+        "name": "six",
+        "version": "1.17.0",
+        "summary": "Python 2 and 3 compatibility utilities",
+        "description": ".. image:: https://img.shields.io/pypi/v/six.svg\n   :target: https://pypi.org/project/six/\n   :alt: six on PyPI\n\n.. image:: https://readthedocs.org/projects/six/badge/?version=latest\n   :target: https://six.readthedocs.io/\n   :alt: six's documentation on Read the Docs\n\n.. image:: https://img.shields.io/badge/license-MIT-green.svg\n   :target: https://github.com/benjaminp/six/blob/master/LICENSE\n   :alt: MIT License badge\n\nSix is a Python 2 and 3 compatibility library.  It provides utility functions\nfor smoothing over the differences between the Python versions with the goal of\nwriting Python code that is compatible on both Python versions.  See the\ndocumentation for more information on what is provided.\n\nSix supports Python 2.7 and 3.3+.  It is contained in only one Python\nfile, so it can be easily copied into your project. (The copyright and license\nnotice must be retained.)\n\nOnline documentation is at https://six.readthedocs.io/.\n\nBugs can be reported to https://github.com/benjaminp/six.  The code can also\nbe found there.\n",
+        "home_page": "https://github.com/benjaminp/six",
+        "author": "Benjamin Peterson",
+        "author_email": "benjamin@python.org",
+        "license": "MIT",
+        "classifier": [
+          "Development Status :: 5 - Production/Stable",
+          "Programming Language :: Python :: 2",
+          "Programming Language :: Python :: 3",
+          "Intended Audience :: Developers",
+          "License :: OSI Approved :: MIT License",
+          "Topic :: Software Development :: Libraries",
+          "Topic :: Utilities"
+        ],
+        "requires_python": ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*"
+      }
+    }
+  ],
+  "environment": {
+    "implementation_name": "cpython",
+    "implementation_version": "3.12.4",
+    "os_name": "nt",
+    "platform_machine": "AMD64",
+    "platform_release": "11",
+    "platform_system": "Windows",
+    "platform_version": "10.0.26200",
+    "python_full_version": "3.12.4",
+    "platform_python_implementation": "CPython",
+    "python_version": "3.12",
+    "sys_platform": "win32"
+  }
+}

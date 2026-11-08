@@ -1,0 +1,222 @@
+{
+  "status": "evaluated_with_documented_AI_limitations",
+  "corpus_sha256": "7f2eb935e58d042484bd70d11a39745262a172f21487e41c85255f5ebd781665",
+  "engine_version": "1.0.1",
+  "policy_version": "declared-client-v1",
+  "deterministic": {
+    "cases": 90,
+    "passed": 90,
+    "comparison_cases": 76,
+    "rejection_cases": 14,
+    "exact_signature_micro": {
+      "tp": 56,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    "per_rule": {
+      "media_type_added": {
+        "tp": 3,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "media_type_removed": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "operation_added": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "operation_removed": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "parameter_added": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "parameter_removed": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "parameter_requirement_changed": {
+        "tp": 3,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "path_template_changed": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "property_added": {
+        "tp": 3,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "property_removed": {
+        "tp": 4,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "request_body_added": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "request_body_removed": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "request_body_requirement_changed": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "request_enum_changed": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "request_property_required": {
+        "tp": 4,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "request_required_relaxed": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "response_enum_changed": {
+        "tp": 3,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "response_property_required": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "response_required_relaxed": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "response_status_added": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "response_status_removed": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "schema_declaration_changed": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "schema_type_changed": {
+        "tp": 12,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0
+      }
+    },
+    "rules_with_expected_findings": 23,
+    "compatible_control_cases": 26,
+    "compatible_controls_with_breaking_false_positives": 0,
+    "breaking_false_positive_case_rate": 0.0,
+    "evidence_sides_checked": 112,
+    "evidence_errors": 0,
+    "evidence_correct_fraction": 1.0,
+    "latency_in_process_ms": {
+      "samples": 228,
+      "p50": 6.2175,
+      "p95_nearest_rank": 11.249,
+      "max": 753.849
+    },
+    "scope": "Exact policy labels in this original frozen corpus only; not general OpenAPI accuracy or an external benchmark."
+  },
+  "production_worker": {
+    "samples": 12,
+    "p50": 749.4445000000001,
+    "p95_nearest_rank": 928.188,
+    "max": 928.188
+  },
+  "ai": {
+    "attempted": 6,
+    "accepted_structural_outputs": 5,
+    "not_generated": 1,
+    "manual_grades": {
+      "partially_grounded": 4,
+      "grounded": 1,
+      "not_generated": 1
+    },
+    "grounded_denominator_all_attempts": {
+      "numerator": 1,
+      "denominator": 6
+    },
+    "authoritative_reports_unchanged": 6,
+    "failed_attempts_without_latency_sample": 1,
+    "automatic_retries": 0,
+    "review_method": "Coding agent manual assessment against the frozen rubric; not an independent human/expert review or an LLM judge score",
+    "scope": "Original six-case first-attempt sample; not independent or general model accuracy."
+  },
+  "note": "Deterministic corpus passes; AI prose remains advisory. Reports preserve baseline failures, label erratum, and first-attempt AI rejection."
+}

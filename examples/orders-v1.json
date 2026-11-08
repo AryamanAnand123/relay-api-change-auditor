@@ -1,0 +1,19 @@
+{
+  "openapi": "3.1.0",
+  "info": {"title": "Original Example Orders API", "version": "1.0.0"},
+  "paths": {
+    "/orders/{order_id}": {
+      "get": {
+        "parameters": [{"name": "order_id", "in": "path", "required": true, "schema": {"type": "string"}}],
+        "responses": {"200": {"description": "An order", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/Order"}}}}}
+      }
+    },
+    "/orders": {
+      "post": {
+        "requestBody": {"required": true, "content": {"application/json": {"schema": {"type": "object", "required": ["item"], "properties": {"item": {"type": "string"}, "currency": {"type": "string", "enum": ["INR", "USD"]}}}}}},
+        "responses": {"201": {"description": "Order created", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/Order"}}}}}
+      }
+    }
+  },
+  "components": {"schemas": {"Order": {"type": "object", "required": ["id", "price"], "properties": {"id": {"type": "string"}, "price": {"type": "number"}}}}}
+}

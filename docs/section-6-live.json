@@ -1,0 +1,50 @@
+{
+  "status": "passed",
+  "runtime": {
+    "status": "ok",
+    "section": 7,
+    "version": "0.7.0"
+  },
+  "corpus_sha256": "7f2eb935e58d042484bd70d11a39745262a172f21487e41c85255f5ebd781665",
+  "checks": [
+    "workspace and Section 6 liveness are served on loopback",
+    {
+      "case": "request-enum-narrow",
+      "http_status": 200
+    },
+    {
+      "case": "documentation-only",
+      "http_status": 200
+    },
+    {
+      "case": "review-recursive-reference",
+      "http_status": 200
+    },
+    {
+      "case": "escaped-component-reference",
+      "http_status": 422
+    },
+    {
+      "case": "escaped-component-reference-oas30",
+      "http_status": 422
+    },
+    {
+      "case": "escaped-property-reference",
+      "http_status": 200
+    },
+    {
+      "case": "escaped-property-reference-oas30",
+      "http_status": 200
+    },
+    {
+      "case": "reject-duplicate-key",
+      "http_status": 422
+    },
+    "stateless regression checks leave saved history, stored bytes, and provider-call count unchanged"
+  ],
+  "transport": "actual loopback HTTP and disposable offline workers",
+  "history_writes": 0,
+  "model_requests": 0,
+  "saved_comparisons_before": 1,
+  "saved_comparisons_after": 1
+}

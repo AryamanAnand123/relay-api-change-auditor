@@ -1,0 +1,39 @@
+{
+  "source": "original synthetic development examples",
+  "engine_version": "1.0.1",
+  "policy_version": "declared-client-v1",
+  "model_calls": 0,
+  "history_access": false,
+  "files": [
+    {
+      "file": "orders-breaking.json",
+      "bytes": 10050,
+      "sha256": "98ec92d58d8d0f2831c99b8c76d67ce285dc8e44485683df181969c3d95840f8"
+    },
+    {
+      "file": "orders-breaking.md",
+      "bytes": 3032,
+      "sha256": "8b9bff0058992008f444e9caca7fb5110aa0f8935c721bfbce8ba2d0ff8a3c6a"
+    },
+    {
+      "file": "orders-additive.json",
+      "bytes": 10409,
+      "sha256": "b1b4b4d0b43ebe7be4bafb8b22281e0058e73a297fbc061ab5ca928ef5ea42e0"
+    },
+    {
+      "file": "orders-additive.md",
+      "bytes": 2390,
+      "sha256": "516c08243c8573505f44dcc0bdc716b5061acdc01533a9e4ee606242f85dbf51"
+    },
+    {
+      "file": "orders-identical.json",
+      "bytes": 8596,
+      "sha256": "fe0a36cdbb90991519e3fa30a77e8a1fd327af336f8852c808064c1c0142c7c1"
+    },
+    {
+      "file": "orders-identical.md",
+      "bytes": 1166,
+      "sha256": "3ba80d73807e8d932d3dc1a48d457f20a44edfd79ffc02814793ba8bb65ca92b"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "status": "passed",
+  "mode": "actual Chrome browser and local FastAPI/SQLite/offline workers",
+  "checks": [
+    "real browser upload, worker comparison, and saved three-finding report",
+    "duplicate comparison reuses its saved record",
+    "real source evidence and interactive finding search",
+    "both actual browser downloads preserve stored report evidence",
+    "reload reopens the bookmarked saved snapshot",
+    "cancel preserves the report; confirmation deletes only the selected snapshot",
+    "actual additive example produces two informational findings without saving",
+    "desktop and mobile screenshots use real unsaved original examples",
+    "no external page requests, browser storage, uncaught errors, or retained test rows"
+  ],
+  "baseline_saved_comparisons": 0,
+  "test_fixture_deleted": true,
+  "preexisting_records_deleted": false,
+  "screenshots_mask_existing_history": false,
+  "uncaught_errors": [],
+  "external_requests": [],
+  "ai_used": false
+}
